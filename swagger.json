@@ -5,6 +5,12 @@
         "version": "1.0",
         "description": "rest API to watch movies info"
     },
+    "servers": [
+        {
+            "url": "http://localhost:8000/api/v1",
+            "description": "Development"
+        }
+    ],
     "paths": {
         "/actors":{
             "get":{
