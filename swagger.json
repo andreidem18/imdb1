@@ -1,0 +1,86 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "IMDB REST API",
+        "version": "1.0",
+        "description": "rest API to watch movies info"
+    },
+    "paths": {
+        "/actors":{
+            "get":{
+                "description": "To get all actors",
+                "responses":{
+                    "200":{
+                        "description": "Actors have been gotten correctly"
+                    }
+                },
+                "tags": ["actors"]
+            },
+            "post":{
+                "description": "To add a new actor",
+                "responses": {
+                    "201":{
+                        "description": "Actor added correctly"
+                    }
+                },
+                "requestBody":{
+                    "content": {
+                        "aplication/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Actors"
+                            }
+                        }
+                    }
+                },
+                "tags": ["actors"]
+            },
+            "delete": {
+                "description": "To delete an actor",
+                "responses": {
+                    "200":{
+                        "description": "Actor deleted"
+                    }
+                },
+                "tags": ["actors"]
+            },
+            "put": {
+                "description": "To update an actor",
+                "responses": {
+                    "200":{
+                        "description": "Actor updated"
+                    }
+                },
+                "tags": ["actors"]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Actors":{
+                "properties":{
+                    "firstname":{
+                        "type": "string"
+                    },
+                    "lastname":{
+                        "type": "string"
+                    },
+                    "dob": {
+                        "type": "string",
+                        "description": "date of birthday (YYYY-MM-DD)",
+                        "example": "1990-01-04"
+                    },
+                    "biography": {
+                        "type": "string"
+                    },
+                    "profile_photo": {
+                        "type": "string",
+                        "description": "url to the actor photo"
+                    },
+                    "active": {
+                        "type": "boolean"
+                    }
+                }
+            }
+        }
+    }
+}
