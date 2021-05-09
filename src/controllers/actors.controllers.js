@@ -1,5 +1,15 @@
 const {Actors} = require('../models');
 
+const get = async(req,res,next) => {
+    const id = parseInt(req.params.id);
+    try{
+        let actor = await Actors.findOne({where: {id: id}});
+        res.json(actor);
+    }catch(error){
+        next(error);
+    }
+}
+
 const getAll = async(req,res,next) => {
     try{
         let actors = await Actors.findAll({raw:true});
@@ -15,7 +25,7 @@ const create = async(req,res,next) => {
         const actor = await Actors.create({firstname,lastname,dob,biography,profile_photo,active});
         res.json({actor});
     }catch(error){
-        next(error)
+        next(error);
     }
 }
 
@@ -44,6 +54,7 @@ const update = async(req,res,next) => {
 }
 
 module.exports = {
+    get,
     getAll,
     create,
     deleteActor,

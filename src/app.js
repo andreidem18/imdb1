@@ -1,5 +1,6 @@
 const express = require('express');
 const actorRoutes = require('./routes/actors');
+const userRoutes = require('./routes/users');
 const logger = require('morgan');
 const fs = require('fs');
 const swaggerUi = require('swagger-ui-express');
@@ -10,18 +11,15 @@ const helmet = require('helmet');
 const app = express();
 
 app.use(express.json());
-app.use('./api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
 app.use(cors());
 app.use(helmet());
-
-app.use(logger('combined', {stream: fs.createWriteStream('./access.log', {flags: 'a'})}));
 
 
 // Endpoints
 app.use("/api/v1/", actorRoutes);
-app.get("/", (req, res) => {
-    res.send("ruta home");
-})
+app.use("/api/v1/", userRoutes);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 
 // errors handler
@@ -29,5 +27,6 @@ app.use((err, req, res, next) => {
     console.log(err.message);
     res.status(500).send('Something is wrong');
 });
+app.use(logger('combined', {stream: fs.createWriteStream('./access.log', {flags: 'a'})}));
 
 module.exports = app

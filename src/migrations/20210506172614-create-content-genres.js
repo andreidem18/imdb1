@@ -10,13 +10,17 @@ module.exports = {
       },
       genre_id: {
         type: Sequelize.INTEGER,
-        model: 'genres',
-        key: 'id'
+        references:{
+          model: 'genres',
+          key: 'id'
+        }
       },
       content_id: {
         type: Sequelize.INTEGER,
-        model: 'contents',
-        key: 'id'
+        references:{
+          model: 'contents',
+          key: 'id'
+        }
       },
       active: {
         type: Sequelize.BOOLEAN
