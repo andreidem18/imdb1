@@ -26,6 +26,9 @@ module.exports = {
       play_time: {
         type: Sequelize.INTEGER
       },
+      photo_link: {
+        type: Sequelize.STRING
+      },
       imdb_link: {
         type: Sequelize.STRING
       },

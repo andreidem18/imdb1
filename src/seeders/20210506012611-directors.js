@@ -52,7 +52,47 @@ const directors = [
     active: true,
     created_at: today,
     updated_at: today
-  }
+  },
+  {
+    firstname: 'James',
+    lastname: 'Gunn',
+    dob: '1970-08-05',
+    biography: 'James Francis Gunn Jr. is an American film director, actor, producer, and screenwriter. He began his career as a screenwriter in the mid-1990s.',
+    profile_photo: 'https://upload.wikimedia.org/wikipedia/commons/d/de/James_Gunn_by_Gage_Skidmore_2.jpg',
+    active: true,
+    created_at: today,
+    updated_at: today
+  },
+  {
+    firstname: 'David',
+    lastname: 'Ayer',
+    dob: '1968-01-18',
+    biography: 'David Ayer is an American filmmaker, best known for making crime films based in Los Angeles and which deal with gangs and police corruption. His screenplays include Training Day, The Fast and the Furious, and S.W.A.T. He has also directed Harsh Times, Street Kings, End of Watch, and Sabotage.',
+    profile_photo: 'https://m.media-amazon.com/images/M/MV5BZjBmMTY4M2ItMmEwNC00NTUyLWIyZDEtYWNhNjViNjRiOGVlXkEyXkFqcGdeQXVyMTY2MzU0MjA@._V1_.jpg',
+    active: true,
+    created_at: today,
+    updated_at: today
+  },
+  {
+    firstname: 'Barry',
+    lastname: 'Sonnenfeld',
+    dob: '1953-04-01',
+    biography: 'Barry Sonnenfeld is an American filmmaker and television director. He originally worked as a cinematographer for the Coen brothers before directing films such as The Addams Family and its sequel Addams Family Values alongside the Men in Black trilogy, Wild Wild West and Get Shorty.',
+    profile_photo: 'https://static.wikia.nocookie.net/disney/images/a/a6/Barry_Sonnenfeld.jpg/revision/latest?cb=20180724193634',
+    active: true,
+    created_at: today,
+    updated_at: today
+  },
+  {
+    firstname: 'Chad',
+    lastname: 'Stahelski',
+    dob: '1968-09-20',
+    biography: 'Chad Stahelski is an American stuntman and film director. He is known for his work on Buffy the Vampire Slayer and directing the 2014 film John Wick along with David Leitch, as well as solo directing its two sequels.',
+    profile_photo: 'https://discussingfilm.net/wp-content/uploads/2020/06/20200624_100847.jpg',
+    active: true,
+    created_at: today,
+    updated_at: today
+  },
 ]
 
 module.exports = {

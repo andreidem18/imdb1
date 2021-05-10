@@ -1,9 +1,9 @@
-const {Actors} = require('../models');
+const {Actors, Contents} = require('../models');
 
 const get = async(req,res,next) => {
     const id = parseInt(req.params.id);
     try{
-        let actor = await Actors.findOne({where: {id: id}});
+        let actor = await Actors.findOne({where: {id: id}, include: [{model: Contents}]});
         res.json(actor);
     }catch(error){
         next(error);
@@ -12,7 +12,10 @@ const get = async(req,res,next) => {
 
 const getAll = async(req,res,next) => {
     try{
-        let actors = await Actors.findAll({raw:true});
+        let actors = await Actors.findAll({
+            include: [{model: Contents}],
+            order:[['id', 'ASC']]
+        });
         res.json(actors);
     }catch(error){
         next(error)
@@ -32,7 +35,7 @@ const create = async(req,res,next) => {
 const deleteActor = async(req,res,next) => {
     const id = parseInt(req.params.id);
     try{
-        let actor = await Actors.findOne({where: {id: id}})
+        let actor = await Actors.findOne({where: {id: id}, include: [{model: Contents}]})
         await Actors.destroy({where: {id: id}});
         res.json(actor);
     }catch(error){
@@ -46,7 +49,7 @@ const update = async(req,res,next) => {
     try{
         await Actors.update({firstname, lastname, dob, biography, profile_photo, active},
                             {where: {id: id}});
-        let actor = await Actors.findOne({where: {id: id}});
+        let actor = await Actors.findOne({where: {id: id}, include: [{model: Contents}]});
         res.json(actor);
     }catch(error){
         next(error)

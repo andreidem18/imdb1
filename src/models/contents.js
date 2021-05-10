@@ -26,6 +26,7 @@ module.exports = (sequelize, DataTypes) => {
     imdb_score: DataTypes.DECIMAL,
     relase_date: DataTypes.DATEONLY,
     play_time: DataTypes.INTEGER,
+    photo_link: DataTypes.STRING,
     imdb_link: DataTypes.STRING,
     active: DataTypes.BOOLEAN
   }, {

@@ -16,7 +16,7 @@ const get = async(req,res,next) => {
 
 const getAll = async(req,res,next) => {
     try{
-        let users = await Users.findAll({raw:true}, {attributes: { exclude: ['password'] }}); 
+        let users = await Users.findAll({raw:true, attributes: { exclude: ['password'] }}); 
         res.json(users);
     }catch(error){
         next(error)

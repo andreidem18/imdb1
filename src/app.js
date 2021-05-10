@@ -1,6 +1,7 @@
 const express = require('express');
 const actorRoutes = require('./routes/actors');
 const userRoutes = require('./routes/users');
+const genreRoutes = require('./routes/genres');
 const logger = require('morgan');
 const fs = require('fs');
 const swaggerUi = require('swagger-ui-express');
@@ -17,6 +18,7 @@ app.use(helmet());
 
 
 // Endpoints
+app.use("/api/v1/", genreRoutes);
 app.use("/api/v1/", actorRoutes);
 app.use("/api/v1/", userRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));

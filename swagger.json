@@ -20,7 +20,7 @@
                         "description": "Actors have been gotten correctly"
                     }
                 },
-                "tags": ["actors"]
+                "tags": ["Actors"]
             },
             "post":{
                 "description": "To add a new actor",
@@ -38,7 +38,18 @@
                         }
                     }
                 },
-                "tags": ["actors"]
+                "tags": ["Actors"]
+            }
+        },
+        "/actors/:id":{
+            "get": {
+                "description": "To get an particular actor",
+                "responses": {
+                    "200":{
+                        "description": "Actor gotten correctly"
+                    }
+                },
+                "tags": ["Actors"]
             },
             "delete": {
                 "description": "To delete an actor",
@@ -47,7 +58,7 @@
                         "description": "Actor deleted"
                     }
                 },
-                "tags": ["actors"]
+                "tags": ["Actors"]
             },
             "put": {
                 "description": "To update an actor",
@@ -56,7 +67,150 @@
                         "description": "Actor updated"
                     }
                 },
-                "tags": ["actors"]
+                "requestBody":{
+                    "content": {
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Actors"
+                            }
+                        }
+                    }
+                },
+                "tags": ["Actors"]
+            }
+        },
+        "/genres":{
+            "get":{
+                "description": "To get all genres",
+                "responses":{
+                    "200":{
+                        "description": "Genres have been gotten correctly"
+                    }
+                },
+                "tags": ["Genres"]
+            },
+            "post":{
+                "description": "To add a new genre",
+                "responses": {
+                    "201":{
+                        "description": "Genre added correctly"
+                    }
+                },
+                "requestBody":{
+                    "content": {
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Genres"
+                            }
+                        }
+                    }
+                },
+                "tags": ["Genres"]
+            }
+        },
+        "/genres/:id":{
+            "get": {
+                "description": "To get an particular genre",
+                "responses": {
+                    "200":{
+                        "description": "Genre gotten correctly"
+                    }
+                },
+                "tags": ["Genres"]
+            },
+            "delete": {
+                "description": "To delete an genre",
+                "responses": {
+                    "200":{
+                        "description": "Genre deleted"
+                    }
+                },
+                "tags": ["Genres"]
+            },
+            "put": {
+                "description": "To update an agenre",
+                "responses": {
+                    "200":{
+                        "description": "Genre updated"
+                    }
+                },
+                "requestBody":{
+                    "content": {
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Genres"
+                            }
+                        }
+                    }
+                },
+                "tags": ["Genres"]
+            }
+        },
+        "/users":{
+            "get":{
+                "description": "To get all actors",
+                "responses":{
+                    "200":{
+                        "description": "Users have been gotten correctly"
+                    }
+                },
+                "tags": ["Users"]
+            },
+            "post":{
+                "description": "To add a new actor",
+                "responses": {
+                    "201":{
+                        "description": "User added correctly"
+                    }
+                },
+                "requestBody":{
+                    "content": {
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Users"
+                            }
+                        }
+                    }
+                },
+                "tags": ["Users"]
+            }
+        },
+        "/users/:id":{
+            "get": {
+                "description": "To get an particular user",
+                "responses": {
+                    "200":{
+                        "description": "User gotten correctly"
+                    }
+                },
+                "tags": ["Users"]
+            },
+            "delete": {
+                "description": "To delete an user",
+                "responses": {
+                    "200":{
+                        "description": "User deleted"
+                    }
+                },
+                "tags": ["Users"]
+            },
+            "put": {
+                "description": "To update an actor",
+                "responses": {
+                    "200":{
+                        "description": "User updated"
+                    }
+                },
+                "requestBody":{
+                    "content": {
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Users"
+                            }
+                        }
+                    }
+                },
+                "tags": ["Users"]
             }
         }
     },
@@ -65,22 +219,60 @@
             "Actors":{
                 "properties":{
                     "firstname":{
-                        "type": "string"
+                        "type": "string",
+                        "example": "Tom"
                     },
                     "lastname":{
-                        "type": "string"
+                        "type": "string",
+                        "example": "Cruise"
                     },
                     "dob": {
                         "type": "string",
                         "description": "date of birthday (YYYY-MM-DD)",
-                        "example": "1990-01-04"
+                        "example": "1962-07-03"
                     },
                     "biography": {
-                        "type": "string"
+                        "type": "string",
+                        "example": "Thomas Cruise Mapother IV is an American actor and produces. He has received various accolades for his work. He is one of the highest-apid actors in the world."
                     },
                     "profile_photo": {
                         "type": "string",
-                        "description": "url to the actor photo"
+                        "description": "url to the actor photo",
+                        "example": "https://www.lecturas.com/medio/2020/09/30/tom-cruise_78749965_800x800.jpg"
+                    },
+                    "active": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "Genres":{
+                "properties":{
+                    "name":{
+                        "type": "string",
+                        "example": "Comedy"
+                    },
+                    "active": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "Users":{
+                "properties":{
+                    "firstname":{
+                        "type": "string",
+                        "example": "Pablo"
+                    },
+                    "lastname":{
+                        "type": "string",
+                        "example": "Brown"
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": "pablo@hotmail.com"
+                    },
+                    "password": {
+                        "type": "string",
+                        "example": "pablo123"
                     },
                     "active": {
                         "type": "boolean"

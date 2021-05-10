@@ -33,3 +33,7 @@
 ::1 - - [05/May/2021:23:12:53 +0000] "GET /api-docs HTTP/1.1" 404 147 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36"
 ::1 - - [08/May/2021:00:29:53 +0000] "DELETE /api/v1/7 HTTP/1.1" 404 150 "-" "insomnia/2021.2.1"
 ::1 - - [08/May/2021:00:35:02 +0000] "POST /api/v1/users/15 HTTP/1.1" 404 155 "-" "insomnia/2021.2.1"
+::1 - - [09/May/2021:20:38:49 +0000] "GET /api/v1/login HTTP/1.1" 404 151 "-" "insomnia/2021.3.0"
+::1 - - [09/May/2021:21:02:49 +0000] "POST /api/v1/genres HTTP/1.1" 404 153 "-" "insomnia/2021.3.0"
+::1 - - [09/May/2021:21:06:57 +0000] "POST /api/v1/genres HTTP/1.1" 404 153 "-" "insomnia/2021.3.0"
+::1 - - [09/May/2021:21:07:09 +0000] "POST /api/v1/genres HTTP/1.1" 404 153 "-" "insomnia/2021.3.0"
