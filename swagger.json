@@ -110,7 +110,7 @@
         },
         "/genres/:id":{
             "get": {
-                "description": "To get an particular genre",
+                "description": "To get a particular genre",
                 "responses": {
                     "200":{
                         "description": "Genre gotten correctly"
@@ -119,7 +119,7 @@
                 "tags": ["Genres"]
             },
             "delete": {
-                "description": "To delete an genre",
+                "description": "To delete a genre",
                 "responses": {
                     "200":{
                         "description": "Genre deleted"
@@ -128,7 +128,7 @@
                 "tags": ["Genres"]
             },
             "put": {
-                "description": "To update an agenre",
+                "description": "To update a genre",
                 "responses": {
                     "200":{
                         "description": "Genre updated"
@@ -144,6 +144,73 @@
                     }
                 },
                 "tags": ["Genres"]
+            }
+        },
+        "/contents":{
+            "get":{
+                "description": "To get all contents (movies and series)",
+                "responses":{
+                    "200":{
+                        "description": "Contents have been gotten correctly"
+                    }
+                },
+                "tags": ["Contents (movies and series)"]
+            },
+            "post":{
+                "description": "To add a new content (movies and series)",
+                "responses": {
+                    "201":{
+                        "description": "Content added correctly"
+                    }
+                },
+                "requestBody":{
+                    "content": {
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Contents"
+                            }
+                        }
+                    }
+                },
+                "tags": ["Contents (movies and series)"]
+            }
+        },
+        "/contents/:id":{
+            "get": {
+                "description": "To get a particular content",
+                "responses": {
+                    "200":{
+                        "description": "Content gotten correctly"
+                    }
+                },
+                "tags": ["Contents (movies and series)"]
+            },
+            "delete": {
+                "description": "To delete a content",
+                "responses": {
+                    "200":{
+                        "description": "Content deleted"
+                    }
+                },
+                "tags": ["Contents (movies and series)"]
+            },
+            "put": {
+                "description": "To update a content",
+                "responses": {
+                    "200":{
+                        "description": "Content updated"
+                    }
+                },
+                "requestBody":{
+                    "content": {
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Contents"
+                            }
+                        }
+                    }
+                },
+                "tags": ["Contents (movies and series)"]
             }
         },
         "/users":{
@@ -177,7 +244,7 @@
         },
         "/users/:id":{
             "get": {
-                "description": "To get an particular user",
+                "description": "To get a particular user",
                 "responses": {
                     "200":{
                         "description": "User gotten correctly"
@@ -195,7 +262,7 @@
                 "tags": ["Users"]
             },
             "put": {
-                "description": "To update an actor",
+                "description": "To update an user",
                 "responses": {
                     "200":{
                         "description": "User updated"
@@ -253,6 +320,64 @@
                     },
                     "active": {
                         "type": "boolean"
+                    }
+                }
+            },
+            "Contents":{
+                "properties":{
+                    "title":{
+                        "type": "string",
+                        "example": "Rambo"
+                    },
+                    "description":{
+                        "type": "string",
+                        "example": "A veteran Green Beret is forced by a cruel Sheriff and his deputies to flee into the mountains and wage an escalating one-man war against his pursuers."
+                    },
+                    "total_seasons": {
+                        "type": "integer",
+                        "description": "If it isn't a TV serie, put 0",
+                        "example": 0
+                    },
+                    "imdb_score": {
+                        "type": "number",
+                        "example": 7.7
+                    },
+                    "relase_date": {
+                        "type": "string",
+                        "description": "(YYYY-MM-DD)",
+                        "example": "1982-10-22"
+                    },
+                    "play_time": {
+                        "type": "integer",
+                        "description": "Duration in minutes",
+                        "example": 93
+                    },
+                    "photo_link": {
+                        "type": "string",
+                        "example": "https://m.media-amazon.com/images/M/MV5BODBmOWU2YWMtZGUzZi00YzRhLWJjNDAtYTUwNWVkNDcyZmU5XkEyXkFqcGdeQXVyNDk3NzU2MTQ@._V1_UX182_CR0,0,182,268_AL_.jpg"
+                    },
+                    "imdb_link": {
+                        "type": "string",
+                        "example": "https://www.imdb.com/title/tt0083944/"
+                    },
+                    "active": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "actors": {
+                        "type": "array",
+                        "description": "array with the actor's id who participated in the movie",
+                        "example": [2]
+                    },
+                    "directors": {
+                        "type": "array",
+                        "description": "array with the director's id who participated in the movie",
+                        "example": [10]
+                    },
+                    "genres": {
+                        "type": "array",
+                        "description": "array with the director's id of the movie",
+                        "example": [2, 6]
                     }
                 }
             },

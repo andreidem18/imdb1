@@ -15,6 +15,8 @@ module.exports = (sequelize, DataTypes) => {
     active: DataTypes.BOOLEAN
   }, {
     sequelize,
+    tableName: 'content_directors',
+    underscored: true,
     modelName: 'ContentDirectors',
   });
   return ContentDirectors;

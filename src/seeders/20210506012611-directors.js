@@ -93,6 +93,16 @@ const directors = [
     created_at: today,
     updated_at: today
   },
+  {
+    firstname: 'Ted',
+    lastname: 'Kotcheff',
+    dob: '1931-04-07',
+    biography: 'William Theodore Kotcheff is a Canadian film and television director and producer, known primarily for his work on British and American television productions such as Armchair Theatre and Law & Order: Special Victims Unit.',
+    profile_photo: 'https://www.dga.org//-/media/Images/Landscape-Images/Visual-History/VH177-Kotcheff/Main.ashx?as=1&h=630&mh=630&mw=1200&w=630&hash=88168DC67A41CA394155504016B74DF5C566692D?t=12345',
+    active: true,
+    created_at: today,
+    updated_at: today
+  }
 ]
 
 module.exports = {

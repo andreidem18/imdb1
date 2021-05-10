@@ -15,6 +15,8 @@ module.exports = (sequelize, DataTypes) => {
     active: DataTypes.BOOLEAN
   }, {
     sequelize,
+    tableName: 'content_genres',
+    underscored: true,
     modelName: 'ContentGenres',
   });
   return ContentGenres;
