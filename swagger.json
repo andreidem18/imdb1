@@ -398,9 +398,6 @@
                     "password": {
                         "type": "string",
                         "example": "pablo123"
-                    },
-                    "active": {
-                        "type": "boolean"
                     }
                 }
             }
