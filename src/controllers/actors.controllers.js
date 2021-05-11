@@ -49,11 +49,28 @@ const update = async(req,res,next) => {
     try{
         await Actors.update({firstname, lastname, dob, biography, profile_photo, active},
                             {where: {id: id}});
-        let actor = await Actors.findOne({where: {id: id}, include: [{model: Contents}]});
+        const actor = await Actors.findOne({where: {id: id}, include: [{model: Contents}]});
         res.json(actor);
     }catch(error){
         next(error)
     }
+}
+
+
+const updatePhoto = async(req,res,next) => {
+    const id = parseInt(req.params.id);
+	try{
+        await Actors.update(
+            {profile_photo: `/src/uploads/actors/${req.file.filename}`},
+            {where: {id: id}}
+        );
+        const actor = await Actors.findOne({where: {id: id}, include: [{model: Contents}]});
+        res.json(actor);  
+	} catch(error) {
+		res.status(400).json({
+			message: error.message
+		});
+	}
 }
 
 module.exports = {
@@ -61,5 +78,6 @@ module.exports = {
     getAll,
     create,
     deleteActor,
-    update
+    update,
+    updatePhoto
 }
