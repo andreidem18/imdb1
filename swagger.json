@@ -7,11 +7,102 @@
     },
     "servers": [
         {
+            "url": "https://imdb3.herokuapp.com/api/v1",
+            "description": "Production"
+        },
+        {
             "url": "http://localhost:8000/api/v1",
             "description": "Development"
         }
     ],
     "paths": {
+        "/users":{
+            "get":{
+                "description": "To get all actors",
+                "responses":{
+                    "200":{
+                        "description": "Users have been gotten correctly"
+                    }
+                },
+                "tags": ["Users"]
+            },
+            "post":{
+                "description": "To add a new user. It sends a email to verify the email address and activate the user",
+                "responses": {
+                    "201":{
+                        "description": "User added correctly"
+                    }
+                },
+                "requestBody":{
+                    "content": {
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Users"
+                            }
+                        }
+                    }
+                },
+                "tags": ["Users"]
+            }
+        },
+        "/users/:id":{
+            "get": {
+                "description": "To get a particular user",
+                "responses": {
+                    "200":{
+                        "description": "User gotten correctly"
+                    }
+                },
+                "tags": ["Users"]
+            },
+            "delete": {
+                "description": "To delete an user",
+                "responses": {
+                    "200":{
+                        "description": "User deleted"
+                    }
+                },
+                "tags": ["Users"]
+            },
+            "put": {
+                "description": "To update an user",
+                "responses": {
+                    "200":{
+                        "description": "User updated"
+                    }
+                },
+                "requestBody":{
+                    "content": {
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Users"
+                            }
+                        }
+                    }
+                },
+                "tags": ["Users"]
+            }
+        },
+        "/login":{
+            "post":{
+                "description": "To login and generate a new Token",
+                "responses": {
+                    "201":{
+                        "description": "Logged correctly"
+                    }
+                },
+                "requestBody":{
+                    "content": {
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Login"
+                            }
+                        }
+                    }
+                },
+                "tags": ["Users"]
+            }
+        },
         "/actors":{
             "get":{
                 "description": "To get all actors",
@@ -279,73 +370,6 @@
                 },
                 "tags": ["Contents (movies and series)"]
             }
-        },
-        "/users":{
-            "get":{
-                "description": "To get all actors",
-                "responses":{
-                    "200":{
-                        "description": "Users have been gotten correctly"
-                    }
-                },
-                "tags": ["Users"]
-            },
-            "post":{
-                "description": "To add a new actor",
-                "responses": {
-                    "201":{
-                        "description": "User added correctly"
-                    }
-                },
-                "requestBody":{
-                    "content": {
-                        "application/json":{
-                            "schema":{
-                                "$ref": "#/components/schemas/Users"
-                            }
-                        }
-                    }
-                },
-                "tags": ["Users"]
-            }
-        },
-        "/users/:id":{
-            "get": {
-                "description": "To get a particular user",
-                "responses": {
-                    "200":{
-                        "description": "User gotten correctly"
-                    }
-                },
-                "tags": ["Users"]
-            },
-            "delete": {
-                "description": "To delete an user",
-                "responses": {
-                    "200":{
-                        "description": "User deleted"
-                    }
-                },
-                "tags": ["Users"]
-            },
-            "put": {
-                "description": "To update an user",
-                "responses": {
-                    "200":{
-                        "description": "User updated"
-                    }
-                },
-                "requestBody":{
-                    "content": {
-                        "application/json":{
-                            "schema":{
-                                "$ref": "#/components/schemas/Users"
-                            }
-                        }
-                    }
-                },
-                "tags": ["Users"]
-            }
         }
     },
     "components": {
@@ -494,9 +518,18 @@
                     "password": {
                         "type": "string",
                         "example": "pablo123"
+                    }
+                }
+            },
+            "Login":{
+                "properties": {
+                    "email":{
+                        "type": "string",
+                        "example": "juan@hotmail.com"
                     },
-                    "active": {
-                        "type": "boolean"
+                    "password": {
+                        "type": "string",
+                        "example": "juan123"
                     }
                 }
             }
