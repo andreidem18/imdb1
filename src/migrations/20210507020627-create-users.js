@@ -16,7 +16,7 @@ module.exports = {
       },
       email: {
         type: Sequelize.STRING,
-        unique: 'email'
+        unique: true
       },
       password: {
         type: Sequelize.STRING

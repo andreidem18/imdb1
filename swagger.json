@@ -45,9 +45,12 @@
                 "tags": ["Users"]
             }
         },
-        "/users/:id":{
+        "/users/{id}":{
             "get": {
                 "description": "To get a particular user",
+                "parameters":[
+                    {"in": "path", "required": true, "name": "id", "schema": {"type": "integer"}}
+                ],
                 "responses": {
                     "200":{
                         "description": "User gotten correctly"
