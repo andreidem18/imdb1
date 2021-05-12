@@ -90,7 +90,17 @@
                     "201":{
                         "description": "Logged correctly"
                     }
-                }
+                },
+                "requestBody":{
+                    "content": {
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Login"
+                            }
+                        }
+                    }
+                },
+                "tags": ["Users"]
             }
         },
         "/actors":{
