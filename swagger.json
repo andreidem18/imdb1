@@ -60,6 +60,9 @@
             },
             "delete": {
                 "description": "To delete an user",
+                "parameters":[
+                    {"in": "path", "required": true, "name": "id", "schema": {"type": "integer"}}
+                ],
                 "responses": {
                     "200":{
                         "description": "User deleted"
@@ -69,6 +72,9 @@
             },
             "put": {
                 "description": "To update an user",
+                "parameters":[
+                    {"in": "path", "required": true, "name": "id", "schema": {"type": "integer"}}
+                ],
                 "responses": {
                     "200":{
                         "description": "User updated"
@@ -138,6 +144,9 @@
         "/actors/:id":{
             "get": {
                 "description": "To get an particular actor",
+                "parameters":[
+                    {"in": "path", "required": true, "name": "id", "schema": {"type": "integer"}}
+                ],
                 "responses": {
                     "200":{
                         "description": "Actor gotten correctly"
@@ -147,6 +156,9 @@
             },
             "delete": {
                 "description": "To delete an actor",
+                "parameters":[
+                    {"in": "path", "required": true, "name": "id", "schema": {"type": "integer"}}
+                ],
                 "responses": {
                     "200":{
                         "description": "Actor deleted"
@@ -156,6 +168,9 @@
             },
             "put": {
                 "description": "To update an actor",
+                "parameters":[
+                    {"in": "path", "required": true, "name": "id", "schema": {"type": "integer"}}
+                ],
                 "responses": {
                     "200":{
                         "description": "Actor updated"
@@ -173,73 +188,6 @@
                 "tags": ["Actors"]
             }
         },
-        "/directors":{
-            "get":{
-                "description": "To get all directors",
-                "responses": {
-                    "200":{
-                        "description": "Directors have been gotten correctly"
-                    }
-                },
-                "tags": ["Directors"]
-            },
-            "post":{
-                "description": "To add a new director",
-                "responses": {
-                    "201":{
-                        "description": "Director added correctly"
-                    }
-                },
-                "requestBody":{
-                    "content": {
-                        "application/json":{
-                            "schema":{
-                                "$ref": "#/components/schemas/Directors"
-                            }
-                        }
-                    }
-                },
-                "tags": ["Directors"]
-            }
-        },
-        "/directors/:id":{
-            "get": {
-                "description": "To get an particular direct",
-                "responses": {
-                    "200":{
-                        "description": "Direct gotten correctly"
-                    }
-                },
-                "tags": ["Directors"]
-            },
-        "delete": {
-            "description": "To delete an director",
-            "responses": {
-                "200":{
-                    "description": "Director deleted"
-                }
-            },
-            "tags": ["Directors"]
-        },
-        "put": {
-            "description": "To update an director",
-            "responses": {
-                "200":{
-                    "description": "Director updated"
-                }
-            },
-            "requestBody":{
-                "content": {
-                    "application/json":{
-                        "schema":{
-                            "$ref": "#/components/schemas/Directors"
-                        }
-                    }
-                }
-            },
-            "tags": ["Directors"]
-        }
-    },
         "/genres":{
             "get":{
                 "description": "To get all genres",
@@ -400,35 +348,6 @@
                         "type": "string",
                         "description": "url to the actor photo",
                         "example": "https://www.lecturas.com/medio/2020/09/30/tom-cruise_78749965_800x800.jpg"
-                    },
-                    "active": {
-                        "type": "boolean"
-                    }
-                }
-            },
-            "Directors":{
-                "properties":{
-                    "firstname":{
-                        "type": "string",
-                        "example": "Anthony"
-                    },
-                    "lastname":{
-                        "type": "string",
-                        "example": "Russo"
-                    },
-                    "dob": {
-                        "type": "string",
-                        "description": "date of birthday (YYYY-MM-DD)",
-                        "example": "1970-02-03"
-                    },
-                    "biography": {
-                        "type": "string",
-                        "example": "Anthony Russo is a producer and director, know for Avengers: Infinity War(2018), Avengers:Endgame(2019), Captain America and the winter soldier (2014)."
-                    },
-                    "profile_photo": {
-                        "type": "string",
-                        "description": "url to the director photo",
-                        "example": "https://es.web.img3.acsta.net/pictures/15/11/24/16/59/250993.jpg"
                     },
                     "active": {
                         "type": "boolean"
