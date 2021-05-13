@@ -215,6 +215,97 @@
                 "tags": ["Actors"]
             }
         },
+        "/directors":{
+            "get":{
+                "description": "To get all directors",
+                "responses":{
+                    "200":{
+                        "description": "Directors have been gotten correctly"
+                    }
+                },
+                "security": [{
+                    "jwt_token": []
+                }],
+                "tags": ["Directors"]
+            },
+            "post":{
+                "description": "To add a new director",
+                "responses": {
+                    "201":{
+                        "description": "Director added correctly"
+                    }
+                },
+                "requestBody":{
+                    "content": {
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Directors"
+                            }
+                        }
+                    }
+                },
+                "security": [{
+                    "jwt_token": []
+                }],
+                "tags": ["Directors"]
+            }
+        },
+        "/directors/{id}":{
+            "get": {
+                "description": "To get an particular director",
+                "parameters":[
+                    {"in": "path", "required": true, "name": "id", "schema": {"type": "integer"}}
+                ],
+                "responses": {
+                    "200":{
+                        "description": "Director gotten correctly"
+                    }
+                },
+                "security": [{
+                    "jwt_token": []
+                }],
+                "tags": ["Directors"]
+            },
+            "delete": {
+                "description": "To delete an director",
+                "parameters":[
+                    {"in": "path", "required": true, "name": "id", "schema": {"type": "integer"}}
+                ],
+                "responses": {
+                    "200":{
+                        "description": "Director deleted"
+                    }
+                },
+                "security": [{
+                    "jwt_token": []
+                }],
+                "tags": ["Directors"]
+            },
+            "put": {
+                "description": "To update an director",
+                "parameters":[
+                    {"in": "path", "required": true, "name": "id", "schema": {"type": "integer"}}
+                ],
+                "responses": {
+                    "200":{
+                        "description": "Director updated"
+                    }
+                },
+                "requestBody":{
+                    "content": {
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Directors"
+                            }
+                        }
+                    }
+                },
+                "security": [{
+                    "jwt_token": []
+                }],
+                "tags": ["Directors"]
+            }
+        },
         "/genres":{
             "get":{
                 "description": "To get all genres",
@@ -436,6 +527,35 @@
                     }
                 }
             },
+            "Directors":{
+                    "properties":{
+                        "firstname":{
+                            "type": "string",
+                            "example": "Anthony"
+                        },
+                        "lastname":{
+                            "type": "string",
+                            "example": "Russo"
+                        },
+                        "dob": {
+                            "type": "string",
+                            "description": "date of birthday (YYYY-MM-DD)",
+                            "example": "1970-02-03"
+                        },
+                        "biography": {
+                            "type": "string",
+                            "example": "Anthony Russo is a producer and director, known for Avengers: Endgame (2019), Captain America and the winter soldier(2014) and Avengers: Infinity War (2018). "
+                        },
+                        "profile_photo": {
+                            "type": "string",
+                            "description": "url to the director photo",
+                            "example": "https://es.web.img3.acsta.net/pictures/15/11/24/16/59/250993.jpg"
+                        },
+                        "active": {
+                            "type": "boolean"
+                        }
+                    }
+                },
             "Genres":{
                 "properties":{
                     "name":{

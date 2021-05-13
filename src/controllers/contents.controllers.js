@@ -22,7 +22,8 @@ const getAll = async(req,res,next) => {
     try{
         let contents = await Contents.findAll({
             include: [
-                {model: Genres}, 
+                {
+                    model: Genres}, 
                 {model: Actors}, 
                 {model: Directors}
             ]
