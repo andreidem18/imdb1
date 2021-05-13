@@ -22,7 +22,7 @@ app.use(express.static('uploads'));
 
 // Endpoints
 app.use("/api/v1/", contentRoutes);
-app.use("api/v1/", directorRoutes);
+app.use("/api/v1/", directorRoutes);
 app.use("/api/v1/", genreRoutes);
 app.use("/api/v1/", actorRoutes);
 app.use("/api/v1/", userRoutes);
