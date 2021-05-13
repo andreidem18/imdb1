@@ -18,6 +18,7 @@ app.use(express.json());
 app.use(cors());
 app.use(helmet());
 
+app.use(express.static('uploads'));
 
 // Endpoints
 app.use("/api/v1/", contentRoutes);
@@ -30,8 +31,15 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // errors handler
 app.use((err, req, res, next) => {
-    console.log(err.message);
-    res.status(500).send('Something is wrong');
+    console.log(JSON.stringify(err));
+    if(err.name === "SequelizeValidationError" || err.statusCode === 400){
+        const errObj = {};
+        err.errors.map(er => {
+            errObj[er.path] = er.message;
+        })
+        return res.status(400).send(errObj);
+    }
+    return res.status(500).send('Something is wrong');
 });
 app.use(logger('combined', {stream: fs.createWriteStream('./access.log', {flags: 'a'})}));
 

@@ -29,40 +29,34 @@ const create = async(req,res,next) => {
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(password, salt);
     try{
-        const emailExist = await Users.findOne({where: {email: email}});
-        if(emailExist){
-            res.json({message: "Email already exists"});
-        } else {
-            let user = await Users.create({
-                firstname: firstname, 
-                lastname: lastname, 
-                email: email, 
-                password: hash, 
-                reset_token: null, 
-                active: false
-            });
-            const id = user.id;
-            const token = jwt.sign(user.dataValues, process.env.JWT_KEY, {
-                algorithm: "HS512",
-                expiresIn: "2 days",
-            });
-            await Users.update({
-                firstname: firstname, 
-                lastname: lastname, 
-                email: email, 
-                password: hash, 
-                reset_token: token, 
-                active: false}, 
-                {where: {id: id}
-            });
-            user = await Users.findOne({where: {id: id}, attributes: { exclude: ['password'] }});
-            const hashEmail = bcrypt.hashSync(user.firstname, salt);
+        let user = await Users.create({
+            firstname: firstname, 
+            lastname: lastname, 
+            email: email, 
+            password: hash, 
+            reset_token: null, 
+            active: false
+        });
+        const id = user.id;
+        const token = jwt.sign(user.dataValues, process.env.JWT_KEY, {
+            algorithm: "HS512",
+            expiresIn: "2 days",
+        });
+        await Users.update({
+            firstname: firstname, 
+            lastname: lastname, 
+            email: email, 
+            password: hash, 
+            reset_token: token, 
+            active: false}, 
+            {where: {id: id}
+        });
+        user = await Users.findOne({where: {id: id}, attributes: { exclude: ['password'] }});
+        const hashEmail = bcrypt.hashSync(user.firstname, salt);
+        await ValidateAccounts.create({hash: hashEmail, user_id: user.id});
 
-            await ValidateAccounts.create({hash: hashEmail, user_id: user.id});
-
-            sendEmail(user.email, hashEmail);
-            res.json(user);
-        }
+        sendEmail(user.email, hashEmail);
+        res.json(user);
     }catch(error){
         next(error);
     }
@@ -71,7 +65,7 @@ const create = async(req,res,next) => {
 const deleteUser = async(req,res,next) => {
     const id = parseInt(req.params.id);
     try{
-        let user = await Users.findOne({where: {id: id}})
+        let user = await Users.findOne({where: {id: id}, attributes: { exclude: ['password'] }});
         await Users.destroy({where: {id: id}});
         res.json(user);
     }catch(error){
@@ -94,6 +88,7 @@ const update = async(req,res,next) => {
             active: active},
             {where: {id: id}
         });
+        user = await Users.findOne({where: {id: id}, attributes: { exclude: ['password'] }});
         res.json(user);
     }catch(error){
         next(error);

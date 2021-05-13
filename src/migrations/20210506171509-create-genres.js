@@ -10,7 +10,7 @@ module.exports = {
       },
       name: {
         type: Sequelize.STRING,
-        unique: 'name'
+        unique: true
       },
       active: {
         type: Sequelize.BOOLEAN

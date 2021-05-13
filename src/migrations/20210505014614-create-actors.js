@@ -9,16 +9,35 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       firstname: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        validate: {
+          isAlpha: true,
+          notEmpty: true,
+          notNull: true
+        }
       },
       lastname: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        validate: {
+          isAlpha: true,
+          notEmpty: true,
+          notNull: true
+        }
       },
       dob: {
-        type: Sequelize.DATEONLY
+        type: Sequelize.DATEONLY,
+        validate: {
+          isDate: true,
+          notEmpty: true,
+          notNull: true
+        }
       },
       biography: {
-        type: Sequelize.TEXT
+        type: Sequelize.TEXT,
+        validate: {
+          notEmpty: true,
+          notNull: true
+        }
       },
       profile_photo: {
         type: Sequelize.STRING

@@ -1,9 +1,9 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "IMDB REST API",
+        "title": "IMDb REST API",
         "version": "1.0",
-        "description": "rest API to watch movies info"
+        "description": "REST API to watch movies information"
     },
     "servers": [
         {
@@ -24,6 +24,9 @@
                         "description": "Users have been gotten correctly"
                     }
                 },
+                "security": [{
+                    "jwt_token": []
+                }],
                 "tags": ["Users"]
             },
             "post":{
@@ -56,6 +59,9 @@
                         "description": "User gotten correctly"
                     }
                 },
+                "security": [{
+                    "jwt_token": []
+                }],
                 "tags": ["Users"]
             },
             "delete": {
@@ -68,6 +74,9 @@
                         "description": "User deleted"
                     }
                 },
+                "security": [{
+                    "jwt_token": []
+                }],
                 "tags": ["Users"]
             },
             "put": {
@@ -89,6 +98,9 @@
                         }
                     }
                 },
+                "security": [{
+                    "jwt_token": []
+                }],
                 "tags": ["Users"]
             }
         },
@@ -120,6 +132,9 @@
                         "description": "Actors have been gotten correctly"
                     }
                 },
+                "security": [{
+                    "jwt_token": []
+                }],
                 "tags": ["Actors"]
             },
             "post":{
@@ -138,10 +153,13 @@
                         }
                     }
                 },
+                "security": [{
+                    "jwt_token": []
+                }],
                 "tags": ["Actors"]
             }
         },
-        "/actors/:id":{
+        "/actors/{id}":{
             "get": {
                 "description": "To get an particular actor",
                 "parameters":[
@@ -152,6 +170,9 @@
                         "description": "Actor gotten correctly"
                     }
                 },
+                "security": [{
+                    "jwt_token": []
+                }],
                 "tags": ["Actors"]
             },
             "delete": {
@@ -164,6 +185,9 @@
                         "description": "Actor deleted"
                     }
                 },
+                "security": [{
+                    "jwt_token": []
+                }],
                 "tags": ["Actors"]
             },
             "put": {
@@ -185,6 +209,9 @@
                         }
                     }
                 },
+                "security": [{
+                    "jwt_token": []
+                }],
                 "tags": ["Actors"]
             }
         },
@@ -196,6 +223,9 @@
                         "description": "Genres have been gotten correctly"
                     }
                 },
+                "security": [{
+                    "jwt_token": []
+                }],
                 "tags": ["Genres"]
             },
             "post":{
@@ -214,30 +244,48 @@
                         }
                     }
                 },
+                "security": [{
+                    "jwt_token": []
+                }],
                 "tags": ["Genres"]
             }
         },
-        "/genres/:id":{
+        "/genres/{id}":{
             "get": {
                 "description": "To get a particular genre",
+                "parameters":[
+                    {"in": "path", "required": true, "name": "id", "schema": {"type": "integer"}}
+                ],
                 "responses": {
                     "200":{
                         "description": "Genre gotten correctly"
                     }
                 },
+                "security": [{
+                    "jwt_token": []
+                }],
                 "tags": ["Genres"]
             },
             "delete": {
                 "description": "To delete a genre",
+                "parameters":[
+                    {"in": "path", "required": true, "name": "id", "schema": {"type": "integer"}}
+                ],
                 "responses": {
                     "200":{
                         "description": "Genre deleted"
                     }
                 },
+                "security": [{
+                    "jwt_token": []
+                }],
                 "tags": ["Genres"]
             },
             "put": {
                 "description": "To update a genre",
+                "parameters":[
+                    {"in": "path", "required": true, "name": "id", "schema": {"type": "integer"}}
+                ],
                 "responses": {
                     "200":{
                         "description": "Genre updated"
@@ -252,6 +300,9 @@
                         }
                     }
                 },
+                "security": [{
+                    "jwt_token": []
+                }],
                 "tags": ["Genres"]
             }
         },
@@ -263,6 +314,9 @@
                         "description": "Contents have been gotten correctly"
                     }
                 },
+                "security": [{
+                    "jwt_token": []
+                }],
                 "tags": ["Contents (movies and series)"]
             },
             "post":{
@@ -272,6 +326,9 @@
                         "description": "Content added correctly"
                     }
                 },
+                "security": [{
+                    "jwt_token": []
+                }],
                 "requestBody":{
                     "content": {
                         "application/json":{
@@ -284,32 +341,50 @@
                 "tags": ["Contents (movies and series)"]
             }
         },
-        "/contents/:id":{
+        "/contents/{id}":{
             "get": {
                 "description": "To get a particular content",
+                "parameters":[
+                    {"in": "path", "required": true, "name": "id", "schema": {"type": "integer"}}
+                ],
                 "responses": {
                     "200":{
                         "description": "Content gotten correctly"
                     }
                 },
+                "security": [{
+                    "jwt_token": []
+                }],
                 "tags": ["Contents (movies and series)"]
             },
             "delete": {
                 "description": "To delete a content",
+                "parameters":[
+                    {"in": "path", "required": true, "name": "id", "schema": {"type": "integer"}}
+                ],
                 "responses": {
                     "200":{
                         "description": "Content deleted"
                     }
                 },
+                "security": [{
+                    "jwt_token": []
+                }],
                 "tags": ["Contents (movies and series)"]
             },
             "put": {
                 "description": "To update a content",
+                "parameters":[
+                    {"in": "path", "required": true, "name": "id", "schema": {"type": "integer"}}
+                ],
                 "responses": {
                     "200":{
                         "description": "Content updated"
                     }
                 },
+                "security": [{
+                    "jwt_token": []
+                }],
                 "requestBody":{
                     "content": {
                         "application/json":{
@@ -324,6 +399,13 @@
         }
     },
     "components": {
+        "securitySchemes": {
+            "jwt_token":{
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        },
         "schemas": {
             "Actors":{
                 "properties":{

@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
   Directors.init({
     firstname: DataTypes.STRING,
     lastname: DataTypes.STRING,
-    dob: DataTypes.DATE,
+    dob: DataTypes.DATEONLY,
     biography: DataTypes.TEXT,
     profile_photo: DataTypes.STRING,
     active: DataTypes.BOOLEAN
