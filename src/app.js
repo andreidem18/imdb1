@@ -18,11 +18,13 @@ app.use(express.json());
 app.use(cors());
 app.use(helmet());
 
+app.set('views', '/src/views');
+
 app.use(express.static('uploads'));
 
 // Endpoints
 app.use("/api/v1/", contentRoutes);
-app.use("api/v1/", directorRoutes);
+app.use("/api/v1/", directorRoutes);
 app.use("/api/v1/", genreRoutes);
 app.use("/api/v1/", actorRoutes);
 app.use("/api/v1/", userRoutes);
@@ -32,7 +34,9 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 // errors handler
 app.use((err, req, res, next) => {
     console.log(JSON.stringify(err));
-    if(err.name === "SequelizeValidationError" || err.statusCode === 400){
+    console.log(JSON.stringify(err.statusCode))
+    if(err.name === "SequelizeValidationError" || err.statusCode === 400 
+    || err.name === "SequelizeDatabaseError"){
         const errObj = {};
         err.errors.map(er => {
             errObj[er.path] = er.message;

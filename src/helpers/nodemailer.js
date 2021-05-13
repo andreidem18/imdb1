@@ -1,5 +1,7 @@
 const nodemailer = require('nodemailer');
 const {google} = require('googleapis');
+const hbs = require('nodemailer-express-handlebars');
+const path = require('path');
 require('dotenv').config();
 
 const CLIENT_ID = process.env.CLIENT_ID;
@@ -10,9 +12,24 @@ const REFRESH_TOKEN = process.env.REFRESH_TOKEN;
 const oAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URL)
 oAuth2Client.setCredentials({refresh_token: REFRESH_TOKEN});
 
-const sendEmail = (email, hash) => {
+
+const emailOptions = {
+    from: 'imdbcopy@gmail.com',
+    to: 'andres.david.mm@hotmail.com',
+    subject: 'Verification'
+}
+
+const sendEmail = (options) => {
 
         const accessToken = oAuth2Client.getAccessToken();
+
+        const handlebarsOptions = {
+            viewEngine: {
+                extName: ".handlebars",
+                partialsDir: path.resolve('./src/views')
+            },
+            viewPath: path.resolve('./src/views')
+        }
 
         const transport = nodemailer.createTransport({
             service: 'gmail',
@@ -29,15 +46,9 @@ const sendEmail = (email, hash) => {
             }
         });
 
-        const mailOptions = {
-            from: 'imdbcopy@gmail.com',
-            to: email,
-            subject: 'Verification',
-            generateTextFromHTML: true,
-            html: `<a href="http://localhost:8000/verify/${hash}"> Verification <a>`
-        }
+        transport.use('compile', hbs(handlebarsOptions));
 
-        transport.sendMail(mailOptions, (error, response) => {
+        transport.sendMail(options, (error, response) => {
             if(error){
                 console.log(error);
             } else {
@@ -46,4 +57,4 @@ const sendEmail = (email, hash) => {
         });
 }
 
-module.exports = sendEmail;
+module.exports = {sendEmail, emailOptions};

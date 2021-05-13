@@ -1,7 +1,7 @@
-const {Users, ValidateAccounts} = require('../models');
+const {Users, ValidateUser} = require('../models');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const sendEmail = require('./nodemailer');
+const {sendEmail, emailOptions} = require('../helpers/nodemailer');
 
 require('dotenv').config();
 
@@ -53,9 +53,17 @@ const create = async(req,res,next) => {
         });
         user = await Users.findOne({where: {id: id}, attributes: { exclude: ['password'] }});
         const hashEmail = bcrypt.hashSync(user.firstname, salt);
-        await ValidateAccounts.create({hash: hashEmail, user_id: user.id});
+        await ValidateUser.create({hash: hashEmail, user_id: user.id});
 
-        sendEmail(user.email, hashEmail);
+        emailOptions.to = user.email;
+        emailOptions.template = 'verify_email';
+        emailOptions.context = {
+            // url: `https://imdb3.herokuapp.com/api/v1/verify/${hashEmail}`,
+            url: `http://localhost:8000/api/v1/verify/${hashEmail}`,
+            name: user.firstname
+        }
+
+        sendEmail(emailOptions);
         res.json(user);
     }catch(error){
         next(error);
@@ -126,11 +134,31 @@ const login = async(req,res,next) => {
     }
 }
 
+
+
+const verify = async(req, res, next) => {
+    const hash = parseInt(req.params.hash);
+
+    // const validation = ValidateUser.findOne({where: {hash: hash}});
+
+    res.send(hash);
+    
+    // if(validation){
+    //     await Users.update({active: true}, {where: {id: validation.user_id}});
+
+    //     res.send("User activated");
+    // }else {
+    //     res.send("We coudn't find the user");
+    // }
+}
+
+
 module.exports = {
     get,
     getAll,
     create,
     deleteUser,
     update,
-    login
+    login,
+    verify
 }

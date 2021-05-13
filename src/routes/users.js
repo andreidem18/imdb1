@@ -1,4 +1,4 @@
-const {get, getAll, create, deleteUser, update, login} = require('../controllers/users.controllers');
+const {get, getAll, create, deleteUser, update, login, verify} = require('../controllers/users.controllers');
 const verifyToken = require('./verifyToken');
 
 const {Router} = require('express');
@@ -10,5 +10,6 @@ route.post("/users", create);
 route.post("/login", login);
 route.delete("/users/:id", deleteUser);
 route.put("/users/:id", update);
+route.get("/verify/:hash", verify);
 
 module.exports = route;
