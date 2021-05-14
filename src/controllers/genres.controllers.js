@@ -1,9 +1,21 @@
-const {Genres, Contents} = require('../models');
+const {Genres, Contents, ContentGenres} = require('../models');
 
 const get = async(req,res,next) => {
     const id = parseInt(req.params.id);
     try{
-        let genre = await Genres.findOne({where: {id: id}, include: [{model:Contents}]});;
+        let genre = await Genres.findOne({
+            where: {id: id}, 
+            include: [
+                {
+                    model:Contents,
+                    attributes: [
+                        "id", "title", "description", "total_seasons", "imdb_score", 
+                        "relase_date", "play_time", "photo_link", "imdb_link"
+                    ],
+                    through: { attributes: [] }
+                },
+            ]
+        });
         res.json(genre);
     }catch(error){
         next(error);
@@ -13,7 +25,16 @@ const get = async(req,res,next) => {
 const getAll = async(req,res,next) => {
     try{
         let genres = await Genres.findAll({
-            include: [{model:Contents}],
+            include: [
+                {
+                    model:Contents,
+                    attributes: [
+                        "id", "title", "description", "total_seasons", "imdb_score", 
+                        "relase_date", "play_time", "photo_link", "imdb_link"
+                    ],
+                    through: { attributes: [] }
+                },
+            ],
             order:[['id', 'ASC']]
         });
         res.json(genres);
@@ -35,7 +56,20 @@ const create = async(req,res,next) => {
 const deleteGenre = async(req,res,next) => {
     const id = parseInt(req.params.id);
     try{
-        let genre = await Genres.findOne({where: {id: id}, include: [{model:Contents}]})
+        let genre = await Genres.findOne({
+            where: {id: id}, 
+            include: [
+                {
+                    model:Contents,
+                    attributes: [
+                        "id", "title", "description", "total_seasons", "imdb_score", 
+                        "relase_date", "play_time", "photo_link", "imdb_link"
+                    ],
+                    through: { attributes: [] }
+                },
+            ]
+        });
+        await ContentGenres.destroy({where: {genre_id: id}});
         await Genres.destroy({where: {id: id}});
         res.json(genre);
     }catch(error){
@@ -49,7 +83,19 @@ const update = async(req,res,next) => {
     try{
         await Genres.update({name, active},
                             {where: {id: id}});
-        let genre = await Genres.findOne({where: {id: id}, include: [{model:Contents}]});
+        let genre = await Genres.findOne({
+            where: {id: id}, 
+            include: [
+                {
+                    model:Contents,
+                    attributes: [
+                        "id", "title", "description", "total_seasons", "imdb_score", 
+                        "relase_date", "play_time", "photo_link", "imdb_link"
+                    ],
+                    through: { attributes: [] }
+                },
+            ]
+        });
         res.json(genre);
     }catch(error){
         next(error)

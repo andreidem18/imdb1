@@ -1,5 +1,5 @@
 const {get, getAll, create, deleteActor, update, updatePhoto} = require('../controllers/actors.controllers');
-const verifyToken = require('./verifyToken');
+const verifyToken = require('../middlewares/verifyToken.middlewares.js');
 const {Router} = require('express');
 const multer = require('multer');
 const mimetype = require('mime-types');

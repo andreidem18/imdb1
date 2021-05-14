@@ -215,6 +215,38 @@
                 "tags": ["Actors"]
             }
         },
+        "/actors/{id}/profile":{
+            "put":{
+                "description": "To allocate a profile photo to an actor",
+                "parameters": [
+                    {"in": "path", "required": true, "name": "id", "schema": {"type": "integer"}}
+                ],
+                "responses": {
+                    "200":{
+                        "description": "Photo updated"
+                    }
+                },
+                "requestBody":{
+                    "content": {
+                        "multipart/form-data":{
+                            "schema":{
+                                "type": "object",
+                                "properties": {
+                                    "image":{
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [{
+                    "jwt_token": []
+                }],
+                "tags": ["Actors"]
+            }
+        },
         "/directors":{
             "get":{
                 "description": "To get all directors",
@@ -296,6 +328,38 @@
                         "application/json":{
                             "schema":{
                                 "$ref": "#/components/schemas/Directors"
+                            }
+                        }
+                    }
+                },
+                "security": [{
+                    "jwt_token": []
+                }],
+                "tags": ["Directors"]
+            }
+        },
+        "/directors/{id}/profile":{
+            "put":{
+                "description": "To allocate a profile photo to an actor",
+                "parameters": [
+                    {"in": "path", "required": true, "name": "id", "schema": {"type": "integer"}}
+                ],
+                "responses": {
+                    "200":{
+                        "description": "Photo updated"
+                    }
+                },
+                "requestBody":{
+                    "content": {
+                        "multipart/form-data":{
+                            "schema":{
+                                "type": "object",
+                                "properties": {
+                                    "image":{
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                }
                             }
                         }
                     }
@@ -517,11 +581,6 @@
                         "type": "string",
                         "example": "Thomas Cruise Mapother IV is an American actor and produces. He has received various accolades for his work. He is one of the highest-apid actors in the world."
                     },
-                    "profile_photo": {
-                        "type": "string",
-                        "description": "url to the actor photo",
-                        "example": "https://www.lecturas.com/medio/2020/09/30/tom-cruise_78749965_800x800.jpg"
-                    },
                     "active": {
                         "type": "boolean"
                     }
@@ -546,16 +605,11 @@
                             "type": "string",
                             "example": "Anthony Russo is a producer and director, known for Avengers: Endgame (2019), Captain America and the winter soldier(2014) and Avengers: Infinity War (2018). "
                         },
-                        "profile_photo": {
-                            "type": "string",
-                            "description": "url to the director photo",
-                            "example": "https://es.web.img3.acsta.net/pictures/15/11/24/16/59/250993.jpg"
-                        },
                         "active": {
                             "type": "boolean"
                         }
                     }
-                },
+            },
             "Genres":{
                 "properties":{
                     "name":{

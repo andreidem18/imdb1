@@ -79,3 +79,10 @@
 ::1 - - [13/May/2021:21:51:05 +0000] "DELETE /api/v1/directors?id=11 HTTP/1.1" 404 158 "-" "insomnia/2021.3.0"
 ::1 - - [13/May/2021:21:51:29 +0000] "GET /favicon.ico HTTP/1.1" 404 150 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36"
 >>>>>>> 75f7aa156a04e25e20b14ee0777ac3a7bb3d1eb6
+::1 - - [14/May/2021:00:54:47 +0000] "POST /api/v1/users/3 HTTP/1.1" 404 154 "-" "insomnia/2021.3.0"
+::1 - - [14/May/2021:17:57:41 +0000] "POST /api/v1/users/6 HTTP/1.1" 404 154 "-" "insomnia/2021.2.1"
+::1 - - [14/May/2021:18:04:09 +0000] "POST /api/v1/users/8 HTTP/1.1" 404 154 "-" "insomnia/2021.2.1"
+::1 - - [14/May/2021:18:07:41 +0000] "POST /api/v1/users/9 HTTP/1.1" 404 154 "-" "insomnia/2021.2.1"
+::1 - - [14/May/2021:18:11:09 +0000] "POST /api/v1/users/10 HTTP/1.1" 404 155 "-" "insomnia/2021.2.1"
+::1 - - [14/May/2021:18:12:39 +0000] "POST /api/v1/users/11 HTTP/1.1" 404 155 "-" "insomnia/2021.2.1"
+::1 - - [14/May/2021:21:47:43 +0000] "PUT /api/v1/directors/ HTTP/1.1" 404 156 "-" "insomnia/2021.3.0"

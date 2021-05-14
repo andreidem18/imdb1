@@ -7,9 +7,27 @@ const get = async(req,res,next) => {
         let content = await Contents.findOne({
             where: {id: id},
             include: [
-                {model: Genres}, 
-                {model: Actors}, 
-                {model: Directors}
+                {
+                    model:Genres,
+                    attributes: ["id", "name"],
+                    through: { attributes: [] }
+                }, 
+                {
+                    model: Actors,
+                    attributes: [
+                        "id", "firstname", "lastname", "dob", 
+                        "biography", "profile_photo"
+                    ],
+                    through: { attributes: [] }
+                }, 
+                {
+                    model: Directors,
+                    attributes: [
+                        "id", "firstname", "lastname", "dob", 
+                        "biography", "profile_photo"
+                    ],
+                    through: { attributes: [] }
+                }
             ]
         });
         res.json(content);
@@ -23,9 +41,26 @@ const getAll = async(req,res,next) => {
         let contents = await Contents.findAll({
             include: [
                 {
-                    model: Genres}, 
-                {model: Actors}, 
-                {model: Directors}
+                    model:Genres,
+                    attributes: ["id", "name"],
+                    through: { attributes: [] }
+                }, 
+                {
+                    model: Actors,
+                    attributes: [
+                        "id", "firstname", "lastname", "dob", 
+                        "biography", "profile_photo"
+                    ],
+                    through: { attributes: [] }
+                }, 
+                {
+                    model: Directors,
+                    attributes: [
+                        "id", "firstname", "lastname", "dob", 
+                        "biography", "profile_photo"
+                    ],
+                    through: { attributes: [] }
+                }
             ]
         });
         res.json(contents);
@@ -38,8 +73,17 @@ const create = async(req,res,next) => {
     const {title, description, total_seasons, imdb_score, relase_date, play_time, 
         photo_link, imdb_link, active, actors, directors, genres} = req.body;
     try{
-        const content = await Contents.create({title,description, total_seasons, 
-            imdb_score, relase_date, play_time, photo_link, imdb_link, active});
+        const content = await Contents.create({
+            title,
+            description, 
+            total_seasons, 
+            imdb_score, 
+            relase_date, 
+            play_time, 
+            photo_link, 
+            imdb_link, 
+            active
+        });
 
         await actors.forEach(async (actor) => await ContentActors.create({
             actor_id: actor,
@@ -64,7 +108,32 @@ const create = async(req,res,next) => {
 const deleteContent = async(req,res,next) => {
     const id = parseInt(req.params.id);
     try{
-        let content = await Contents.findOne({where: {id: id}});
+        let content = await Contents.findOne({
+            where: {id: id},
+            include: [
+                {
+                    model:Genres,
+                    attributes: ["id", "name"],
+                    through: { attributes: [] }
+                }, 
+                {
+                    model: Actors,
+                    attributes: [
+                        "id", "firstname", "lastname", "dob", 
+                        "biography", "profile_photo"
+                    ],
+                    through: { attributes: [] }
+                }, 
+                {
+                    model: Directors,
+                    attributes: [
+                        "id", "firstname", "lastname", "dob", 
+                        "biography", "profile_photo"
+                    ],
+                    through: { attributes: [] }
+                }
+            ]
+        });
 
         await ContentActors.destroy({where: {content_id: id}});
         await ContentDirectors.destroy({where: {content_id: id}});
@@ -83,8 +152,16 @@ const update = async(req,res,next) => {
     const id = parseInt(req.params.id);
     try{
 
-        await Contents.update({title,description, total_seasons, 
-            imdb_score, relase_date, play_time, photo_link, imdb_link, active},
+        await Contents.update({
+            title,description, 
+            total_seasons, 
+            imdb_score, 
+            relase_date, 
+            play_time, 
+            photo_link, 
+            imdb_link, 
+            active
+        },
             {where: {id: id}
         });
 
@@ -108,9 +185,27 @@ const update = async(req,res,next) => {
         const content = await Contents.findOne({
             where: {id: id},
             include: [
-                {model: Genres}, 
-                {model: Actors}, 
-                {model: Directors}
+                {
+                    model:Genres,
+                    attributes: ["id", "name"],
+                    through: { attributes: [] }
+                }, 
+                {
+                    model: Actors,
+                    attributes: [
+                        "id", "firstname", "lastname", "dob", 
+                        "biography", "profile_photo"
+                    ],
+                    through: { attributes: [] }
+                }, 
+                {
+                    model: Directors,
+                    attributes: [
+                        "id", "firstname", "lastname", "dob", 
+                        "biography", "profile_photo"
+                    ],
+                    through: { attributes: [] }
+                }
             ]
         })
 

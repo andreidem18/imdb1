@@ -33,10 +33,8 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // errors handler
 app.use((err, req, res, next) => {
-    console.log(JSON.stringify(err));
-    console.log(JSON.stringify(err.statusCode))
-    if(err.name === "SequelizeValidationError" || err.statusCode === 400 
-    || err.name === "SequelizeDatabaseError"){
+    console.log(err.message);
+    if(err.name === "SequelizeValidationError" || err.statusCode === 400 ){
         const errObj = {};
         err.errors.map(er => {
             errObj[er.path] = er.message;

@@ -1,5 +1,5 @@
 const {Users, ValidateUser} = require('../models');
-const jwt = require('jsonwebtoken');
+const createToken = require('../middlewares/createToken.middlewares.js');
 const bcrypt = require('bcryptjs');
 const {sendEmail, emailOptions} = require('../helpers/nodemailer');
 
@@ -38,16 +38,12 @@ const create = async(req,res,next) => {
             active: false
         });
         const id = user.id;
-        const token = jwt.sign(user.dataValues, process.env.JWT_KEY, {
-            algorithm: "HS512",
-            expiresIn: "2 days",
-        });
         await Users.update({
             firstname: firstname, 
             lastname: lastname, 
             email: email, 
             password: hash, 
-            reset_token: token, 
+            reset_token: createToken(user.dataValues), 
             active: false}, 
             {where: {id: id}
         });
