@@ -174,9 +174,9 @@ const update = async(req,res,next) => {
             {where: {id: id}
         });
 
-        // await ContentActors.destroy({where: {content_id: id}});
-        // await ContentDirectors.destroy({where: {content_id: id}});
-        // await ContentGenres.destroy({where: {content_id: id}});
+        await ContentActors.destroy({where: {content_id: id}});
+        await ContentDirectors.destroy({where: {content_id: id}});
+        await ContentGenres.destroy({where: {content_id: id}});
 
         await actors.forEach(async (actor) => await ContentActors.create({
             actor_id: actor,
@@ -192,30 +192,7 @@ const update = async(req,res,next) => {
         }));
 
         const content = await Contents.findOne({
-            where: {id: id},
-            include: [
-                {
-                    model:Genres,
-                    attributes: ["id", "name"],
-                    through: { attributes: [] }
-                }, 
-                {
-                    model: Actors,
-                    attributes: [
-                        "id", "firstname", "lastname", "dob", 
-                        "biography", "profile_photo"
-                    ],
-                    through: { attributes: [] }
-                }, 
-                {
-                    model: Directors,
-                    attributes: [
-                        "id", "firstname", "lastname", "dob", 
-                        "biography", "profile_photo"
-                    ],
-                    through: { attributes: [] }
-                }
-            ]
+            where: {id: id}
         })
 
         res.json({content});

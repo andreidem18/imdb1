@@ -70,8 +70,7 @@ const create = async(req,res,next) => {
         emailOptions.to = user.email;
         emailOptions.template = 'verify_email';
         emailOptions.context = {
-            // url: `https://imdb3.herokuapp.com/api/v1/verify/${hashEmail}`,
-            url: `http://localhost:8000/api/v1/verify/${hashEmail}`,
+            url: `https://imdb3.herokuapp.com/api/v1/verify/${hashEmail}`,
             name: user.firstname
         }
 

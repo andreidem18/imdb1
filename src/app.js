@@ -20,7 +20,7 @@ app.use(helmet());
 
 app.set('views', '/src/views');
 
-app.use(express.static('uploads'));
+app.use(express.static(__dirname + 'uploads'));
 
 // Endpoints
 app.use("/api/v1/", contentRoutes);
