@@ -128,7 +128,7 @@ const updatePhoto = async(req,res) => {
     const id = parseInt(req.params.id);
 	try{
         await Actors.update(
-            {profile_photo: `/src/uploads/actors/${req.file.filename}`},
+            {profile_photo: `https://imdb3.herokuapp.com/actors/${req.file.filename}`},
             {where: {id: id}}
         );
         const actor = await Actors.findOne(

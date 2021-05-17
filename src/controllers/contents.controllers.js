@@ -192,7 +192,30 @@ const update = async(req,res,next) => {
         }));
 
         const content = await Contents.findOne({
-            where: {id: id}
+            where: {id: id},
+            include: [
+                {
+                    model:Genres,
+                    attributes: ["id", "name"],
+                    through: { attributes: [] }
+                }, 
+                {
+                    model: Actors,
+                    attributes: [
+                        "id", "firstname", "lastname", "dob", 
+                        "biography", "profile_photo"
+                    ],
+                    through: { attributes: [] }
+                }, 
+                {
+                    model: Directors,
+                    attributes: [
+                        "id", "firstname", "lastname", "dob", 
+                        "biography", "profile_photo"
+                    ],
+                    through: { attributes: [] }
+                }
+            ]
         })
 
         res.json({content});

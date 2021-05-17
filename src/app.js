@@ -20,9 +20,10 @@ app.use(helmet());
 
 app.set('views', '/src/views');
 
-app.use(express.static(__dirname + 'uploads'));
+app.use(express.static(__dirname + '/uploads'));
 
 // Endpoints
+app.get("/", (req, res) => res.json({"Imdb_api": "1.0.0"}));
 app.use("/api/v1/", contentRoutes);
 app.use("/api/v1/", directorRoutes);
 app.use("/api/v1/", genreRoutes);

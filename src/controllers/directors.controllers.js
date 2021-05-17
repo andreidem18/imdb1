@@ -117,7 +117,7 @@ const updatePhoto = async(req,res,next) => {
     const id = parseInt(req.params.id);
 	try{
         await Directors.update(
-            {profile_photo: `/src/uploads/directors/${req.file.filename}`},
+            {profile_photo: `https://imdb3.herokuapp.com/directors/${req.file.filename}`},
             {where: {id: id}}
         );
         const director = await Directors.findOne({where: {id: id}, include: [{model: Contents}]});
