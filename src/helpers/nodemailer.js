@@ -26,7 +26,8 @@ const sendEmail = (options) => {
         const handlebarsOptions = {
             viewEngine: {
                 extName: ".handlebars",
-                partialsDir: path.resolve('./src/views')
+                partialsDir: path.resolve('./src/views'),
+                defaultLayout: false
             },
             viewPath: path.resolve('./src/views')
         }

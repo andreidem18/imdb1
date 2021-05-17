@@ -86,3 +86,5 @@
 ::1 - - [14/May/2021:18:11:09 +0000] "POST /api/v1/users/10 HTTP/1.1" 404 155 "-" "insomnia/2021.2.1"
 ::1 - - [14/May/2021:18:12:39 +0000] "POST /api/v1/users/11 HTTP/1.1" 404 155 "-" "insomnia/2021.2.1"
 ::1 - - [14/May/2021:21:47:43 +0000] "PUT /api/v1/directors/ HTTP/1.1" 404 156 "-" "insomnia/2021.3.0"
+::1 - - [15/May/2021:01:34:06 +0000] "GET /api/v1/verify/$2a$10$HeCyeoqQFx1IrXXStVIvn.0Gu4PSSudBnMOT3DIeJygI/c1Rd1VN2 HTTP/1.1" 404 213 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
+::1 - - [15/May/2021:15:34:15 +0000] "GET /favicon.ico HTTP/1.1" 404 150 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"

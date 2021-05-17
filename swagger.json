@@ -16,9 +16,13 @@
         }
     ],
     "paths": {
-        "/users":{
+        "/users/?offset={offset}&limit={limit}":{
             "get":{
                 "description": "To get all actors",
+                "parameters":[
+                    {"in": "path", "required": true, "name": "offset", "schema": {"type": "integer"}},
+                    {"in": "path", "required": true, "name": "limit", "schema": {"type": "integer"}}
+                ],
                 "responses":{
                     "200":{
                         "description": "Users have been gotten correctly"
@@ -28,7 +32,9 @@
                     "jwt_token": []
                 }],
                 "tags": ["Users"]
-            },
+            }
+        },
+        "/users":{
             "post":{
                 "description": "To add a new user. It sends a email to verify the email address and activate the user",
                 "responses": {
@@ -124,9 +130,13 @@
                 "tags": ["Users"]
             }
         },
-        "/actors":{
+        "/actors/?offset={offset}&limit={limit}":{
             "get":{
                 "description": "To get all actors",
+                "parameters":[
+                    {"in": "path", "required": true, "name": "offset", "schema": {"type": "integer"}},
+                    {"in": "path", "required": true, "name": "limit", "schema": {"type": "integer"}}
+                ],
                 "responses":{
                     "200":{
                         "description": "Actors have been gotten correctly"
@@ -136,7 +146,9 @@
                     "jwt_token": []
                 }],
                 "tags": ["Actors"]
-            },
+            }
+        },
+        "/actors":{
             "post":{
                 "description": "To add a new actor",
                 "responses": {
@@ -247,9 +259,13 @@
                 "tags": ["Actors"]
             }
         },
-        "/directors":{
+        "/directors/?offset={offset}&limit={limit}":{
             "get":{
                 "description": "To get all directors",
+                "parameters":[
+                    {"in": "path", "required": true, "name": "offset", "schema": {"type": "integer"}},
+                    {"in": "path", "required": true, "name": "limit", "schema": {"type": "integer"}}
+                ],
                 "responses":{
                     "200":{
                         "description": "Directors have been gotten correctly"
@@ -259,7 +275,9 @@
                     "jwt_token": []
                 }],
                 "tags": ["Directors"]
-            },
+            }
+        },
+        "/directors":{
             "post":{
                 "description": "To add a new director",
                 "responses": {
@@ -370,9 +388,13 @@
                 "tags": ["Directors"]
             }
         },
-        "/genres":{
+        "/genres/?offset={offset}&limit={limit}":{
             "get":{
                 "description": "To get all genres",
+                "parameters":[
+                    {"in": "path", "required": true, "name": "offset", "schema": {"type": "integer"}},
+                    {"in": "path", "required": true, "name": "limit", "schema": {"type": "integer"}}
+                ],
                 "responses":{
                     "200":{
                         "description": "Genres have been gotten correctly"
@@ -382,7 +404,9 @@
                     "jwt_token": []
                 }],
                 "tags": ["Genres"]
-            },
+            }
+        },
+        "/genres":{
             "post":{
                 "description": "To add a new genre",
                 "responses": {
@@ -461,9 +485,13 @@
                 "tags": ["Genres"]
             }
         },
-        "/contents":{
+        "/contents/?offset={offset}&limit={limit}":{
             "get":{
-                "description": "To get all contents (movies and series)",
+                "description": "To get all Contents",
+                "parameters":[
+                    {"in": "path", "required": true, "name": "offset", "schema": {"type": "integer"}},
+                    {"in": "path", "required": true, "name": "limit", "schema": {"type": "integer"}}
+                ],
                 "responses":{
                     "200":{
                         "description": "Contents have been gotten correctly"
@@ -472,8 +500,10 @@
                 "security": [{
                     "jwt_token": []
                 }],
-                "tags": ["Contents (movies and series)"]
-            },
+                "tags": ["Contents"]
+            }
+        },
+        "/contents":{
             "post":{
                 "description": "To add a new content (movies and series)",
                 "responses": {

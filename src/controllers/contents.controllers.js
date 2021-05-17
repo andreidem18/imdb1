@@ -1,5 +1,6 @@
 const {Contents, Actors, Genres, Directors, 
     ContentActors, ContentDirectors, ContentGenres} = require('../models');
+const Paginate = require('../middlewares/paginate.middlewares.js');
 
 const get = async(req,res,next) => {
     const id = parseInt(req.params.id);
@@ -37,6 +38,10 @@ const get = async(req,res,next) => {
 }
 
 const getAll = async(req,res,next) => {
+
+    const limit = parseInt(req.query.limit);
+    const offset = parseInt(req.query.offset);
+
     try{
         let contents = await Contents.findAll({
             include: [
@@ -61,9 +66,13 @@ const getAll = async(req,res,next) => {
                     ],
                     through: { attributes: [] }
                 }
-            ]
+            ],
+            order:[['id', 'ASC']],
+            offset: offset,
+            limit: limit
         });
-        res.json(contents);
+        let count = await Contents.findAll({raw: true});
+        res.json(Paginate(offset, limit, count.length, contents));
     }catch(error){
         next(error)
     }

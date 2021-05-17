@@ -1,4 +1,5 @@
 const {Genres, Contents, ContentGenres} = require('../models');
+const Paginate = require('../middlewares/paginate.middlewares.js');
 
 const get = async(req,res,next) => {
     const id = parseInt(req.params.id);
@@ -23,6 +24,10 @@ const get = async(req,res,next) => {
 }
 
 const getAll = async(req,res,next) => {
+
+    const limit = parseInt(req.query.limit);
+    const offset = parseInt(req.query.offset);
+
     try{
         let genres = await Genres.findAll({
             include: [
@@ -35,9 +40,12 @@ const getAll = async(req,res,next) => {
                     through: { attributes: [] }
                 },
             ],
-            order:[['id', 'ASC']]
+            order:[['id', 'ASC']],
+            offset: offset,
+            limit: limit
         });
-        res.json(genres);
+        let count = await Genres.findAll({raw: true});
+        res.json(Paginate(offset, limit, count.length, genres));
     }catch(error){
         next(error)
     }

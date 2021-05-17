@@ -2,6 +2,7 @@ const {Users, ValidateUser} = require('../models');
 const createToken = require('../middlewares/createToken.middlewares.js');
 const bcrypt = require('bcryptjs');
 const {sendEmail, emailOptions} = require('../helpers/nodemailer');
+const Paginate = require('../middlewares/paginate.middlewares.js');
 
 require('dotenv').config();
 
@@ -16,9 +17,19 @@ const get = async(req,res,next) => {
 }
 
 const getAll = async(req,res,next) => {
+
+    const limit = parseInt(req.query.limit);
+    const offset = parseInt(req.query.offset);
+
     try{
-        let users = await Users.findAll({raw:true, attributes: { exclude: ['password'] }}); 
-        res.json(users);
+        let users = await Users.findAll({
+            attributes: { exclude: ['password'] },
+            order:[['id', 'ASC']],
+            offset: offset,
+            limit: limit
+        }); 
+        let count = await Users.findAll({raw: true});
+        res.json(Paginate(offset, limit, count.length, users));
     }catch(error){
         next(error)
     }
@@ -48,7 +59,12 @@ const create = async(req,res,next) => {
             {where: {id: id}
         });
         user = await Users.findOne({where: {id: id}, attributes: { exclude: ['password'] }});
-        const hashEmail = bcrypt.hashSync(user.firstname, salt);
+        let hashEmail = bcrypt.hashSync(user.firstname, salt);
+        hashEmail = hashEmail
+            .split('')
+            .filter(character => character !== '/')
+            .join('');
+
         await ValidateUser.create({hash: hashEmail, user_id: user.id});
 
         emailOptions.to = user.email;
@@ -133,19 +149,26 @@ const login = async(req,res,next) => {
 
 
 const verify = async(req, res, next) => {
-    const hash = parseInt(req.params.hash);
+    const hash = req.params.hash;
+    try{
+        
+        const validation = await ValidateUser.findOne({where: {hash: hash}});
+        
+        if(validation){
+            
+            await Users.update({active: true}, {where: {id: validation.user_id}});
 
-    // const validation = ValidateUser.findOne({where: {hash: hash}});
+            await ValidateUser.destroy({where: {hash: hash}});
 
-    res.send(hash);
-    
-    // if(validation){
-    //     await Users.update({active: true}, {where: {id: validation.user_id}});
-
-    //     res.send("User activated");
-    // }else {
-    //     res.send("We coudn't find the user");
-    // }
+            res.send("User activated");
+            
+        }else {
+            res.send("We coudn't find the user");
+        }
+        
+    } catch(error) {
+        next(error)
+    }
 }
 
 
