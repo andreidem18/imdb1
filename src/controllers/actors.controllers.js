@@ -61,7 +61,7 @@ const create = async(req,res,next) => {
             biography,
             active
         });
-        res.json({actor});
+        res.status(201).json({actor});
     }catch(error){
         next(error);
     }
