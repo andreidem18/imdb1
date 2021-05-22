@@ -8,7 +8,7 @@ const directors = [
     lastname: 'Wan',
     dob: '1977-02-26',
     biography: 'James Wan is a Malaysian-Australian film director, screenwriter, producer, and comic book writer. He has primarily worked in the horror genre as the co-creator of the Saw and Insidious franchises and the creator of The Conjuring Universe. The lattermost is the second highest-grossing horror franchise at $1.9 billion.',
-    profile_photo: 'https://deadline.com/wp-content/uploads/2020/03/james-wan.jpg',
+    profile_photo: 'https://imdb3.herokuapp.com/directors/1621642185025.jpeg',
     active: true,
     created_at: today,
     updated_at: today
