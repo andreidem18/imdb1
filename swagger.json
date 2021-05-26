@@ -244,7 +244,7 @@
                             "schema":{
                                 "type": "object",
                                 "properties": {
-                                    "image":{
+                                    "profile_photo":{
                                         "type": "string",
                                         "format": "binary"
                                     }
@@ -373,7 +373,7 @@
                             "schema":{
                                 "type": "object",
                                 "properties": {
-                                    "image":{
+                                    "profile_photo":{
                                         "type": "string",
                                         "format": "binary"
                                     }
