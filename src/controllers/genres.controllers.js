@@ -17,7 +17,7 @@ const get = async(req,res,next) => {
                 },
             ]
         });
-        res.json(genre);
+        return res.json(genre);
     }catch(error){
         next(error);
     }
@@ -45,7 +45,7 @@ const getAll = async(req,res,next) => {
             limit: limit
         });
         let count = await Genres.findAll({raw: true});
-        res.json(Paginate(offset, limit, count.length, genres));
+        return res.json(Paginate(offset, limit, count.length, genres));
     }catch(error){
         next(error)
     }
@@ -55,7 +55,7 @@ const create = async(req,res,next) => {
     const {name, active} = req.body;
     try{
         const genre = await Genres.create({name, active});
-        res.json({genre});
+        return res.status(201).json({genre});
     }catch(error){
         next(error);
     }
@@ -79,7 +79,7 @@ const deleteGenre = async(req,res,next) => {
         });
         await ContentGenres.destroy({where: {genre_id: id}});
         await Genres.destroy({where: {id: id}});
-        res.json(genre);
+        return res.json(genre);
     }catch(error){
         next(error)
     }
@@ -104,7 +104,7 @@ const update = async(req,res,next) => {
                 },
             ]
         });
-        res.json(genre);
+        return res.json(genre);
     }catch(error){
         next(error)
     }

@@ -16,7 +16,7 @@ const createStorage = (category) => {
             }
         }
     });
-    return multer({storage: storage});
+    return multer({storage});
 }
 
 module.exports = createStorage;

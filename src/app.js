@@ -35,15 +35,22 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 // errors handler
 app.use((err, req, res, next) => {
     console.log(err.message);
-    if(err.name === "SequelizeValidationError" || err.statusCode === 400 ){
-        const errObj = {};
-        err.errors.map(er => {
-            errObj[er.path] = er.message;
-        })
-        return res.status(400).send(errObj);
+    switch(err.name){
+        case 'SequelizeValidationError':
+            const errObj = {message: "Validation error", errors: []};
+            err.errors.map(er => {
+                errObj.errors.push({[er.path]: er.message});
+            });
+            return res.status(403).send(errObj);
+        case 'SequelizeUniqueConstraintError':
+            return res.status(403).send({message: "There is another register with the same value"});
+        case 'TokenExpiredError':
+            return res.status(401).send({message: "The token is expired"});
+        default:
+            return res.status(500).send('Server error');
     }
-    return res.status(500).send('Something is wrong');
 });
+
 app.use(logger('combined', {stream: fs.createWriteStream('./access.log', {flags: 'a'})}));
 
 module.exports = app

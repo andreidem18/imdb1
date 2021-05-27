@@ -17,7 +17,7 @@ const get = async(req,res,next) => {
                 },
             ]
         });
-        res.json(actor);
+        return res.json(actor);
     }catch(error){
         next(error);
     }
@@ -45,7 +45,7 @@ const getAll = async(req,res,next) => {
             limit: limit
         });
         let count = await Actors.findAll({raw: true});
-        res.json(Paginate(offset, limit, count.length, actors));
+        return res.json(Paginate(offset, limit, count.length, actors));
     }catch(error){
         next(error)
     }
@@ -61,7 +61,7 @@ const create = async(req,res,next) => {
             biography,
             active
         });
-        res.status(201).json({actor});
+        return res.status(201).json({actor});
     }catch(error){
         next(error);
     }
@@ -85,7 +85,7 @@ const deleteActor = async(req,res,next) => {
         });
         await ContentActors.destroy({where: {actor_id: id}});
         await Actors.destroy({where: {id: id}});
-        res.json(actor);
+        return res.json(actor);
     }catch(error){
         next(error)
     }
@@ -117,33 +117,20 @@ const update = async(req,res,next) => {
                 },
             ]
         });
-        res.json(actor);
+        return res.json(actor);
     }catch(error){
         next(error)
     }
 }
 
-
-const updatePhoto = async(req,res) => {
+const updatePhoto = async(req,res,next) => {
     const id = parseInt(req.params.id);
 	try{
         await Actors.update(
-            {profile_photo: `https://imdb3.herokuapp.com/actors/${req.file.filename}`},
+            {profile_photo: `https://imdb3.herokuapp.com/directors/${req.file.filename}`},
             {where: {id: id}}
         );
-        const actor = await Actors.findOne(
-            {where: {id: id}, 
-            include: [
-                {
-                    model:Contents,
-                    attributes: [
-                        "id", "title", "description", "total_seasons", "imdb_score", 
-                        "relase_date", "play_time", "photo_link", "imdb_link"
-                    ],
-                    through: { attributes: [] }
-                },
-            ]
-        });
+        const actor = await Actors.findOne({where: {id: id}, include: [{model: Contents}]});
         res.json(actor);  
 	} catch(error) {
 		res.status(400).json({
@@ -151,6 +138,7 @@ const updatePhoto = async(req,res) => {
 		});
 	}
 }
+
 
 module.exports = {
     get,

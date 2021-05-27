@@ -16,24 +16,6 @@
         }
     ],
     "paths": {
-        "/users/?offset={offset}&limit={limit}":{
-            "get":{
-                "description": "To get all actors",
-                "parameters":[
-                    {"in": "path", "required": true, "name": "offset", "schema": {"type": "integer"}},
-                    {"in": "path", "required": true, "name": "limit", "schema": {"type": "integer"}}
-                ],
-                "responses":{
-                    "200":{
-                        "description": "Users have been gotten correctly"
-                    }
-                },
-                "security": [{
-                    "jwt_token": []
-                }],
-                "tags": ["Users"]
-            }
-        },
         "/users":{
             "post":{
                 "description": "To add a new user. It sends a email to verify the email address and activate the user",
@@ -52,14 +34,9 @@
                     }
                 },
                 "tags": ["Users"]
-            }
-        },
-        "/users/{id}":{
+            },
             "get": {
-                "description": "To get a particular user",
-                "parameters":[
-                    {"in": "path", "required": true, "name": "id", "schema": {"type": "integer"}}
-                ],
+                "description": "To get the data of the logged user",
                 "responses": {
                     "200":{
                         "description": "User gotten correctly"
@@ -71,10 +48,7 @@
                 "tags": ["Users"]
             },
             "delete": {
-                "description": "To delete an user",
-                "parameters":[
-                    {"in": "path", "required": true, "name": "id", "schema": {"type": "integer"}}
-                ],
+                "description": "To delete the logged user",
                 "responses": {
                     "200":{
                         "description": "User deleted"
@@ -86,10 +60,7 @@
                 "tags": ["Users"]
             },
             "put": {
-                "description": "To update an user",
-                "parameters":[
-                    {"in": "path", "required": true, "name": "id", "schema": {"type": "integer"}}
-                ],
+                "description": "To update he current user",
                 "responses": {
                     "200":{
                         "description": "User updated"
@@ -244,7 +215,7 @@
                             "schema":{
                                 "type": "object",
                                 "properties": {
-                                    "image":{
+                                    "profile_photo":{
                                         "type": "string",
                                         "format": "binary"
                                     }
@@ -373,7 +344,7 @@
                             "schema":{
                                 "type": "object",
                                 "properties": {
-                                    "image":{
+                                    "profile_photo":{
                                         "type": "string",
                                         "format": "binary"
                                     }

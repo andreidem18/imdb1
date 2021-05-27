@@ -7,33 +7,15 @@ const Paginate = require('../middlewares/paginate.middlewares.js');
 require('dotenv').config();
 
 const get = async(req,res,next) => {
-    const id = parseInt(req.params.id);
+    const id = parseInt(req.user.id);
     try{
         let user = await Users.findOne({where: {id: id}, attributes: { exclude: ['password'] }});
-        res.json(user);
+        return res.json(user);
     }catch(error){
         next(error);
     }
 }
 
-const getAll = async(req,res,next) => {
-
-    const limit = parseInt(req.query.limit);
-    const offset = parseInt(req.query.offset);
-
-    try{
-        let users = await Users.findAll({
-            attributes: { exclude: ['password'] },
-            order:[['id', 'ASC']],
-            offset: offset,
-            limit: limit
-        }); 
-        let count = await Users.findAll({raw: true});
-        res.json(Paginate(offset, limit, count.length, users));
-    }catch(error){
-        next(error)
-    }
-}
 
 const create = async(req,res,next) => {
     const {firstname, lastname, email, password} = req.body;
@@ -75,25 +57,25 @@ const create = async(req,res,next) => {
         }
 
         sendEmail(emailOptions);
-        res.json(user);
+        res.status(201).json(user);
     }catch(error){
         next(error);
     }
 }
 
 const deleteUser = async(req,res,next) => {
-    const id = parseInt(req.params.id);
+    const id = req.user.id;
     try{
         let user = await Users.findOne({where: {id: id}, attributes: { exclude: ['password'] }});
         await Users.destroy({where: {id: id}});
-        res.json(user);
+        return res.json(user);
     }catch(error){
         next(error)
     }
 }
 
 const update = async(req,res,next) => {
-    const id = parseInt(req.params.id);
+    const id = req.user.id;
     const {firstname, lastname, email, password, reset_token, active} = req.body;
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(password, salt);
@@ -108,7 +90,7 @@ const update = async(req,res,next) => {
             {where: {id: id}
         });
         user = await Users.findOne({where: {id: id}, attributes: { exclude: ['password'] }});
-        res.json(user);
+        return res.json(user);
     }catch(error){
         next(error);
     }
@@ -121,23 +103,19 @@ const login = async(req,res,next) => {
             attributes: { exclude: ['reset_token'] }});
         if(user && bcrypt.compareSync(password, user.password)){
             const id = user.id;
-            const token = jwt.sign(user.dataValues, process.env.JWT_KEY, {
-                algorithm: "HS512",
-                expiresIn: "2 days",
-            });
             await Users.update({
                 firstname: user.firstname, 
                 lastname: user.lastname, 
                 email: user.email, 
                 password: user.password, 
-                reset_token: token, 
+                reset_token: createToken(user.dataValues), 
                 active: user.active}, 
-                {where: {id: id}
+                {where: {id}
             });
             user = await Users.findOne({where: {id: id}, attributes: { exclude: ['password'] }});
-            res.json(user);
+            return res.json(user);
         }else{
-            res.json({message: "Incorrect data"});
+            return res.status(401).json({message: "Incorrect data"});
         }
         
     } catch(error) {
@@ -162,7 +140,7 @@ const verify = async(req, res, next) => {
             res.send("User activated");
             
         }else {
-            res.send("We coudn't find the user");
+            res.status(404).send("We coudn't find the user");
         }
         
     } catch(error) {
@@ -173,7 +151,6 @@ const verify = async(req, res, next) => {
 
 module.exports = {
     get,
-    getAll,
     create,
     deleteUser,
     update,

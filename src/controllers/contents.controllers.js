@@ -31,7 +31,7 @@ const get = async(req,res,next) => {
                 }
             ]
         });
-        res.json(content);
+        return res.json(content);
     }catch(error){
         next(error);
     }
@@ -72,7 +72,7 @@ const getAll = async(req,res,next) => {
             limit: limit
         });
         let count = await Contents.findAll({raw: true});
-        res.json(Paginate(offset, limit, count.length, contents));
+        return res.json(Paginate(offset, limit, count.length, contents));
     }catch(error){
         next(error)
     }
@@ -80,7 +80,8 @@ const getAll = async(req,res,next) => {
 
 const create = async(req,res,next) => {
     const {title, description, total_seasons, imdb_score, relase_date, play_time, 
-        photo_link, imdb_link, active, actors, directors, genres} = req.body;
+        photo_link, imdb_link, active} = req.body;
+    let {actors, directors, genres} = req.body;
     try{
         const content = await Contents.create({
             title,
@@ -93,21 +94,16 @@ const create = async(req,res,next) => {
             imdb_link, 
             active
         });
+    const content_id = content.id;
+    actors = actors.map(actor_id => {return {actor_id, content_id}});
+    directors = directors.map(director_id => {return {director_id, content_id}});
+    genres = genres.map(genre_id => {return {genre_id, content_id}});
 
-        await actors.forEach(async (actor) => await ContentActors.create({
-            actor_id: actor,
-            content_id: content.id
-        }));
-        await directors.forEach(async (director) => await ContentDirectors.create({
-            director_id: director,
-            content_id: content.id
-        }));
-        await genres.forEach(async (genre) => await ContentGenres.create({
-            genre_id: genre,
-            content_id: content.id
-        }));
+    await ContentActors.bulkCreate(actors);
+    await ContentDirectors.bulkCreate(directors);
+    await ContentGenres.bulkCreate(genres);
 
-        res.json({content});
+        return res.status(201).json({content});
 
     }catch(error){
         next(error);
@@ -149,7 +145,7 @@ const deleteContent = async(req,res,next) => {
         await ContentGenres.destroy({where: {content_id: id}});
         await Contents.destroy({where: {id: id}});
 
-        res.json(content);
+        return res.json(content);
     }catch(error){
         next(error)
     }
@@ -157,7 +153,8 @@ const deleteContent = async(req,res,next) => {
 
 const update = async(req,res,next) => {
     const {title, description, total_seasons, imdb_score, relase_date, play_time, 
-        photo_link, imdb_link, active, actors, directors, genres} = req.body;
+        photo_link, imdb_link, active} = req.body;
+    let {actors, directors, genres} = req.body;
     const id = parseInt(req.params.id);
     try{
 
@@ -178,18 +175,13 @@ const update = async(req,res,next) => {
         await ContentDirectors.destroy({where: {content_id: id}});
         await ContentGenres.destroy({where: {content_id: id}});
 
-        await actors.forEach(async (actor) => await ContentActors.create({
-            actor_id: actor,
-            content_id: id
-        }));
-        await directors.forEach(async (director) => await ContentDirectors.create({
-            director_id: director,
-            content_id: id
-        }));
-        await genres.forEach(async (genre) => await ContentGenres.create({
-            genre_id: genre,
-            content_id: id
-        }));
+        actors = actors.map(actor_id => {return {actor_id, content_id}});
+        directors = directors.map(director_id => {return {director_id, content_id}});
+        genres = genres.map(genre_id => {return {genre_id, content_id}});
+
+        await ContentActors.bulkCreate(actors);
+        await ContentDirectors.bulkCreate(directors);
+        await ContentGenres.bulkCreate(genres);
 
         const content = await Contents.findOne({
             where: {id: id},
@@ -218,7 +210,7 @@ const update = async(req,res,next) => {
             ]
         })
 
-        res.json({content});
+        return res.json({content});
 
     }catch(error){
         next(error)

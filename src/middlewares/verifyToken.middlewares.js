@@ -8,16 +8,15 @@ const verifyToken = (req, res, next) => {
 
         token = token.replace(/^Bearer\s+/,"");
         
-        jwt.verify(token, process.env.JWT_KEY, (err, decoded) => {
-            if(err) {
-                return res.json({message: 'Invalid token'});
-            } else {
-                req.decoded = decoded;
-                return next();
-            }
-        })
+        try{
+            const decoded = jwt.verify(token, process.env.JWT_KEY);
+            req.user = decoded;
+            return next()
+        }catch(error){
+            return res.status(401).json({message: 'Invalid Token'});
+        }
     } else {
-        return res.json({
+        return res.status(401).json({
             message: "The token was not provided"
         })
     }

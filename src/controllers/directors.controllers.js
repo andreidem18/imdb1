@@ -17,7 +17,7 @@ const get = async(req,res,next) => {
                 },
             ]
         });
-        res.json(director);
+        return res.json(director);
     }catch(error){
         next(error);
     }
@@ -45,7 +45,7 @@ const getAll = async(req,res,next) => {
             limit: limit
         });
         let count = await Directors.findAll({raw: true});
-        res.json(Paginate(offset, limit, count.length, directors));
+        return res.json(Paginate(offset, limit, count.length, directors));
     }catch(error){
         next(error)
     }
@@ -61,7 +61,7 @@ const create = async(req,res,next) => {
             biography,
             active
         });
-        res.json({director});
+        return res.status(201).json({director});
     }catch(error){
         next(error);
     }
@@ -75,7 +75,7 @@ const deleteDirector = async(req,res,next) => {
         await ContentDirectors.destroy({where: {director_id: id}});
         await Directors.destroy({where: {id: id}});
 
-        res.json(director);
+        return res.json(director);
     }catch(error){
         next(error)
     }
@@ -107,7 +107,7 @@ const update = async(req,res,next) => {
                 },
             ]
         });
-        res.json(director);
+        return res.json(director);
     }catch(error){
         next(error)
     }
