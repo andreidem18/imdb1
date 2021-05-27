@@ -1,5 +1,5 @@
 # IMDB REST API
-[![N|Solid](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAMAAAD04JH5AAAAflBMVEX///8AAACfn5/y8vILCwvDw8M5OTnr6+twcHAuLi4RERE2Njbv7+/7+/srKyv39/fMzMxMTExSUlJBQUF/f3/b29sZGRleXl7S0tJ5eXkeHh7FxcXj4+O8vLywsLChoaFlZWVGRkaqqqqTk5McHByFhYWXl5dOTk5gYGBqampGFSmYAAACtElEQVR4nO2Y2ZKqMBBAwyIMS8I2ICKguIzj///gDcEsVoHCRYp56PNgZSk6h0DaBIQAAAAAAAAAAAAAAAAAAAAA4I+DfUnQNhiybmC13wiwcl2Qhx05Hog8TKB/P6gQqj3JnRr4W1lP8qf+JN7pVW50QVLidlj2ZAHD0h58IaRrEofGKgtZNzfP/W2TG1XsltPs0UI+KHBJEcrdlwIU94yXEjD3CFXmOwHNrWmQfAkBTUfopAr1C2iWv5QArZ8HBeTUuOFSAjHGv0MC5LDjY2qHpQSSwEiGBDxfzs73UgKOb5MXAjUvH5XV0goYZVr64xPSsEBRppcXAmKFbJ8Eyp+kuBTeLp8v4OahkgaGBWKsCNQ8XHGaLWBu1DQwTsAVr6ZWjJyDXoEu9pmlAdOcIKDyNUMgY8GPV1bOpgiYctKicS9irwBhgzYxKxcTBNyfSizdJvh/AYutP8J+EzJBoF2evH2OQNPI6dw6EwSSAO0/IRDtNMF1hECoCIjynHfgpvzr1KsIiAepZZtVBGQOJPkqAqnYDFrpiFXwcYHI9njrrVxFwIh569FeRQBfeet1HQGxHTXrIYHNsgL8/tx8pUfAk2tRDgmILTsVEOn3cwL8UObYQwIiW9MtmSogyrdZAr7HI/YKkEovlOvEoOq/YTxLAD/WYYx6BZSDSXsuEALuYS/OEvdR4w8JoCtv7BeQtCcjIaDuiPR5Aice5Z2AZ6sCkmzOppQKdMucjvpGwKVPQAo4cld8HHk2GRLoTlv0Nl4LkEM7Dk9KZn3iO8jt2EOa0Zjd1xVzh1DtMMgdIzsitBDZyI8Ja/RC0d/hWdGvXrIg6XHLuJcovztFVjS6MXJ8hNPH96WQxgrsjvZqvy34vEDBsp/BPlv1BPTTtBy3HQQAAAAAAAAAAAAAAAAAAACAFfgHk5s96skEU1cAAAAASUVORK5CYII=)](https://imdb3.herokuapp.com/api-docs/)
+[![N|Solid](https://upload.wikimedia.org/wikipedia/commons/6/69/IMDB_Logo_2016.svg)](https://imdb3.herokuapp.com/api-docs/)
 
 [![build status](https://img.shields.io/circleci/project/github/PokeAPI/pokeapi/master.svg)](https://imdb3.herokuapp.com/api/v1/) [![data status](https://img.shields.io/circleci/build/github/PokeAPI/api-data?label=data)](https://imdb3.herokuapp.com/api/v1/api-data)
 
@@ -24,14 +24,13 @@ Install the dependencies and devDependencies and start the server.
 ```sh
 cd imdb
 npm i
-Create a database called classcenter CREATE DATABASE classcenter;
-sequelize-cli db:seed:all
+Create a database named IMDB CREATE DATABASE IMDB;
 npx sequelize-cli db:migrate
+sequelize-cli db:seed:all
 npm run dev
 ```
 
 ### Production
-
 ```sh
 npm install --production
 NODE_ENV=production
@@ -45,6 +44,12 @@ npm start
 | Json Web Token | [plugins/jsonwebtoken/README.md][PlJw] |
 | Bcryptjs | [plugins/bcryptjs/README.md][PlBc] |
 | Sequelize | [plugins/googledrive/README.md][PlSq] |
+| Helmet | [plugins/googledrive/README.md][PlSq] |
+| Multer | [plugins/googledrive/README.md][PlSq] |
+| Googleapis | [][PlSq] |
+| Nodemailer | [][PlSq] |
+| Supertest | [][PlSq] |
+| Supertest | [][PlSq] |
 
 ## Docker
 
