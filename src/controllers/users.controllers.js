@@ -57,7 +57,7 @@ const create = async(req,res,next) => {
         }
 
         sendEmail(emailOptions);
-        res.status(201).json(user);
+        return res.status(201).json(user);
     }catch(error){
         next(error);
     }
