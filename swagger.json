@@ -201,38 +201,6 @@
                 "tags": ["Actors"]
             }
         },
-        "/actors/{id}/profile":{
-            "put":{
-                "description": "To allocate a profile photo to an actor",
-                "parameters": [
-                    {"in": "path", "required": true, "name": "id", "schema": {"type": "integer"}}
-                ],
-                "responses": {
-                    "200":{
-                        "description": "Photo updated"
-                    }
-                },
-                "requestBody":{
-                    "content": {
-                        "multipart/form-data":{
-                            "schema":{
-                                "type": "object",
-                                "properties": {
-                                    "profile_photo":{
-                                        "type": "string",
-                                        "format": "binary"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [{
-                    "jwt_token": []
-                }],
-                "tags": ["Actors"]
-            }
-        },
         "/directors/?offset={offset}&limit={limit}":{
             "get":{
                 "description": "To get all directors. Offset = 0 and limit = 20 by default",
@@ -320,38 +288,6 @@
                         "application/json":{
                             "schema":{
                                 "$ref": "#/components/schemas/Directors"
-                            }
-                        }
-                    }
-                },
-                "security": [{
-                    "jwt_token": []
-                }],
-                "tags": ["Directors"]
-            }
-        },
-        "/directors/{id}/profile":{
-            "put":{
-                "description": "To allocate a profile photo to an actor",
-                "parameters": [
-                    {"in": "path", "required": true, "name": "id", "schema": {"type": "integer"}}
-                ],
-                "responses": {
-                    "200":{
-                        "description": "Photo updated"
-                    }
-                },
-                "requestBody":{
-                    "content": {
-                        "multipart/form-data":{
-                            "schema":{
-                                "type": "object",
-                                "properties": {
-                                    "profile_photo":{
-                                        "type": "string",
-                                        "format": "binary"
-                                    }
-                                }
                             }
                         }
                     }
