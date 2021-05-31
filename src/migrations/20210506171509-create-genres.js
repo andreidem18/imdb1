@@ -10,10 +10,12 @@ module.exports = {
       },
       name: {
         type: Sequelize.STRING,
+        allowNull: false,
         unique: true
       },
       active: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
+        defaultValue: true
       },
       created_at: {
         allowNull: false,

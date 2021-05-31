@@ -12,8 +12,18 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Genres.init({
-    name: DataTypes.STRING,
-    active: DataTypes.BOOLEAN
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+      validate: {
+        notEmpty: true,
+      }
+    },
+    active: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true
+    }
   }, {
     sequelize,
     modelName: 'Genres',

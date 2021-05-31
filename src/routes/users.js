@@ -4,7 +4,7 @@ const verifyToken = require('../middlewares/verifyToken.middlewares.js');
 const {Router} = require('express');
 const route = Router();
 
-route.get("/users/:id", verifyToken, get);
+route.get("/users", verifyToken, get);
 route.post("/users", create);
 route.post("/login", login);
 route.delete("/users", verifyToken, deleteUser);

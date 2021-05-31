@@ -20,15 +20,57 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Contents.init({
-    title: DataTypes.STRING,
-    description: DataTypes.STRING,
-    total_seasons: DataTypes.INTEGER,
-    imdb_score: DataTypes.DECIMAL,
-    relase_date: DataTypes.DATEONLY,
-    play_time: DataTypes.INTEGER,
+    title: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: true,
+      }
+    },
+    description: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: true,
+      }
+    },
+    total_seasons: {
+      type: DataTypes.INTEGER,
+      validate: {
+        isNumeric: true,
+        notEmpty: true,
+      }
+    },
+    imdb_score: {
+      type: DataTypes.DECIMAL,
+      validate: {
+        isNumeric: true
+      }
+    },
+    relase_date: {
+      type: DataTypes.DATEONLY,
+      validate: {
+        isDate: true,
+        notEmpty: true,
+      }
+    },
+    play_time: {
+      type: DataTypes.INTEGER,
+      validate: {
+        isNumeric: true,
+        notEmpty: true,
+      }
+    },
     photo_link: DataTypes.STRING,
-    imdb_link: DataTypes.STRING,
-    active: DataTypes.BOOLEAN
+    imdb_link: {
+      type: DataTypes.STRING,
+      validate: {
+        isUrl: true,
+        notEmpty: true,
+      }
+    },
+    active: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true
+    }
   }, {
     sequelize,
     modelName: 'Contents',

@@ -9,7 +9,7 @@ require('dotenv').config();
 const get = async(req,res,next) => {
     const id = parseInt(req.user.id);
     try{
-        let user = await Users.findOne({where: {id: id}, attributes: { exclude: ['password'] }});
+        let user = await Users.findOne({where: {id}, attributes: { exclude: ['password'] }});
         return res.json(user);
     }catch(error){
         next(error);
@@ -23,31 +23,30 @@ const create = async(req,res,next) => {
     const hash = bcrypt.hashSync(password, salt);
     try{
         let user = await Users.create({
-            firstname: firstname, 
-            lastname: lastname, 
-            email: email, 
+            firstname, 
+            lastname, 
+            email, 
             password: hash, 
             reset_token: null, 
             active: false
         });
+
         const id = user.id;
-        await Users.update({
-            firstname: firstname, 
-            lastname: lastname, 
-            email: email, 
-            password: hash, 
-            reset_token: createToken(user.dataValues), 
-            active: false}, 
-            {where: {id: id}
+
+        user = await Users.findOne({
+            where: {id}, 
+            attributes: { exclude: ['password'] }, 
+            raw: true
         });
-        user = await Users.findOne({where: {id: id}, attributes: { exclude: ['password'] }});
-        let hashEmail = bcrypt.hashSync(user.firstname, salt);
-        hashEmail = hashEmail
+        user.reset_token = createToken(user);
+
+        let hashEmail = bcrypt
+            .hashSync(user.firstname, salt)
             .split('')
             .filter(character => character !== '/')
             .join('');
 
-        await ValidateUser.create({hash: hashEmail, user_id: user.id});
+        await ValidateUser.create({hash: hashEmail, user_id: id});
 
         emailOptions.to = user.email;
         emailOptions.template = 'verify_email';
@@ -66,8 +65,8 @@ const create = async(req,res,next) => {
 const deleteUser = async(req,res,next) => {
     const id = req.user.id;
     try{
-        let user = await Users.findOne({where: {id: id}, attributes: { exclude: ['password'] }});
-        await Users.destroy({where: {id: id}});
+        let user = await Users.findOne({where: {id}, attributes: { exclude: ['password'] }});
+        await Users.destroy({where: {id}});
         return res.json(user);
     }catch(error){
         next(error)
@@ -76,20 +75,17 @@ const deleteUser = async(req,res,next) => {
 
 const update = async(req,res,next) => {
     const id = req.user.id;
-    const {firstname, lastname, email, password, reset_token, active} = req.body;
+    const {firstname, lastname, password} = req.body;
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(password, salt);
     try{
         let user = await Users.update({
-            firstname: firstname, 
-            lastname: lastname, 
-            email: email, 
-            password: hash, 
-            reset_token: reset_token, 
-            active: active},
-            {where: {id: id}
+            firstname, 
+            lastname, 
+            password: hash},
+            {where: {id}
         });
-        user = await Users.findOne({where: {id: id}, attributes: { exclude: ['password'] }});
+        user = await Users.findOne({where: {id}, attributes: { exclude: ['password'] }});
         return res.json(user);
     }catch(error){
         next(error);
@@ -99,21 +95,20 @@ const update = async(req,res,next) => {
 const login = async(req,res,next) => {
     const {password, email} = req.body;
     try{
-        let user = await Users.findOne({where: {email: email}, 
-            attributes: { exclude: ['reset_token'] }});
+        let user = await Users.findOne({where: {email}});
+
         if(user && bcrypt.compareSync(password, user.password)){
-            const id = user.id;
-            await Users.update({
-                firstname: user.firstname, 
-                lastname: user.lastname, 
-                email: user.email, 
-                password: user.password, 
-                reset_token: createToken(user.dataValues), 
-                active: user.active}, 
-                {where: {id}
+            user = await Users.findOne({
+                where: {id: user.id}, 
+                attributes: { exclude: ['password'] },
+                raw: true
             });
-            user = await Users.findOne({where: {id: id}, attributes: { exclude: ['password'] }});
+            user.reset_token = createToken(user);
+
             return res.json(user);
+
+        }else if(password === "" || email === ""){
+            return res.status(403).json({message: "Empty fields"});
         }else{
             return res.status(401).json({message: "Incorrect data"});
         }
@@ -135,7 +130,7 @@ const verify = async(req, res, next) => {
             
             await Users.update({active: true}, {where: {id: validation.user_id}});
 
-            await ValidateUser.destroy({where: {hash: hash}});
+            await ValidateUser.destroy({where: {hash}});
 
             res.send("User activated");
             

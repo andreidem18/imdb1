@@ -43,7 +43,7 @@ app.use((err, req, res, next) => {
             });
             return res.status(403).send(errObj);
         case 'SequelizeUniqueConstraintError':
-            return res.status(403).send({message: "There is another register with the same value"});
+            return res.status(409).send({message: "Register already exists"});
         case 'TokenExpiredError':
             return res.status(401).send({message: "The token is expired"});
         default:

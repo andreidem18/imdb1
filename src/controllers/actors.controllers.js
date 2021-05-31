@@ -5,7 +5,7 @@ const get = async(req,res,next) => {
     const id = parseInt(req.params.id);
     try{
         let actor = await Actors.findOne({
-            where: {id: id}, 
+            where: {id}, 
             include: [
                 {
                     model:Contents,
@@ -17,7 +17,11 @@ const get = async(req,res,next) => {
                 },
             ]
         });
-        return res.json(actor);
+        if(actor){
+            return res.json(actor);
+        } else {
+            return res.status(404).json({message: `The actor with id = ${id} does not exist`});
+        }
     }catch(error){
         next(error);
     }
@@ -29,7 +33,7 @@ const getAll = async(req,res,next) => {
     const offset = parseInt(req.query.offset);
     
     try{
-        let actors = await Actors.findAll({
+        const {count, rows} = await Actors.findAndCountAll({
             include: [
                 {
                     model:Contents,
@@ -44,8 +48,7 @@ const getAll = async(req,res,next) => {
             offset: offset,
             limit: limit
         });
-        let count = await Actors.findAll({raw: true});
-        return res.json(Paginate(offset, limit, count.length, actors));
+        return res.json(Paginate(offset, limit, count, rows));
     }catch(error){
         next(error)
     }
@@ -83,9 +86,13 @@ const deleteActor = async(req,res,next) => {
                 },
             ]
         });
-        await ContentActors.destroy({where: {actor_id: id}});
-        await Actors.destroy({where: {id: id}});
-        return res.json(actor);
+        if(actor){
+            await ContentActors.destroy({where: {actor_id: id}});
+            await Actors.destroy({where: {id}});
+            return res.json(actor);
+        } else {
+            return res.status(204).json({message: `The actor with id ${id} does not exist`});
+        }
     }catch(error){
         next(error)
     }
@@ -102,10 +109,10 @@ const update = async(req,res,next) => {
             biography, 
             active
         },
-            {where: {id: id}
+            {where: {id}
         });
         const actor = await Actors.findOne({
-            where: {id: id}, 
+            where: {id}, 
             include: [
                 {
                     model:Contents,
@@ -117,7 +124,11 @@ const update = async(req,res,next) => {
                 },
             ]
         });
-        return res.json(actor);
+        if(actor){
+            return res.json(actor);
+        } else {
+            return res.status(204).json({message: `The actor with id ${id} does not exist`});
+        }
     }catch(error){
         next(error)
     }

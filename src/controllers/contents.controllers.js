@@ -31,7 +31,11 @@ const get = async(req,res,next) => {
                 }
             ]
         });
-        return res.json(content);
+        if(content){
+            return res.json(content);
+        } else {
+            return res.status(404).json({message: `The content with id = ${id} does not exist`});
+        }
     }catch(error){
         next(error);
     }
@@ -39,11 +43,11 @@ const get = async(req,res,next) => {
 
 const getAll = async(req,res,next) => {
 
-    const limit = parseInt(req.query.limit);
-    const offset = parseInt(req.query.offset);
+    const limit = parseInt(req.query.limit) || 20;
+    const offset = parseInt(req.query.offset) || 0;
 
     try{
-        let contents = await Contents.findAll({
+        const {count, rows} = await Contents.findAndCountAll({
             include: [
                 {
                     model:Genres,
@@ -71,8 +75,7 @@ const getAll = async(req,res,next) => {
             offset: offset,
             limit: limit
         });
-        let count = await Contents.findAll({raw: true});
-        return res.json(Paginate(offset, limit, count.length, contents));
+        return res.json(Paginate(offset, limit, count, rows));
     }catch(error){
         next(error)
     }
@@ -80,7 +83,7 @@ const getAll = async(req,res,next) => {
 
 const create = async(req,res,next) => {
     const {title, description, total_seasons, imdb_score, relase_date, play_time, 
-        photo_link, imdb_link, active} = req.body;
+        photo_link, imdb_link} = req.body;
     let {actors, directors, genres} = req.body;
     try{
         const content = await Contents.create({
@@ -91,8 +94,7 @@ const create = async(req,res,next) => {
             relase_date, 
             play_time, 
             photo_link, 
-            imdb_link, 
-            active
+            imdb_link
         });
     const content_id = content.id;
     actors = actors.map(actor_id => {return {actor_id, content_id}});
@@ -103,7 +105,7 @@ const create = async(req,res,next) => {
     await ContentDirectors.bulkCreate(directors);
     await ContentGenres.bulkCreate(genres);
 
-        return res.status(201).json({content});
+    return res.status(201).json({content});
 
     }catch(error){
         next(error);
@@ -114,7 +116,7 @@ const deleteContent = async(req,res,next) => {
     const id = parseInt(req.params.id);
     try{
         let content = await Contents.findOne({
-            where: {id: id},
+            where: {id},
             include: [
                 {
                     model:Genres,
@@ -143,9 +145,13 @@ const deleteContent = async(req,res,next) => {
         await ContentActors.destroy({where: {content_id: id}});
         await ContentDirectors.destroy({where: {content_id: id}});
         await ContentGenres.destroy({where: {content_id: id}});
-        await Contents.destroy({where: {id: id}});
+        await Contents.destroy({where: {id}});
 
-        return res.json(content);
+        if(content){
+            return res.json(content);
+        } else {
+            return res.status(204).json({message: `The content with id = ${id} does not exist`});
+        }
     }catch(error){
         next(error)
     }
@@ -159,58 +165,37 @@ const update = async(req,res,next) => {
     try{
 
         await Contents.update({
-            title,description, 
-            total_seasons, 
-            imdb_score, 
-            relase_date, 
-            play_time, 
-            photo_link, 
-            imdb_link, 
-            active
-        },
-            {where: {id: id}
-        });
+                title,description, 
+                total_seasons, 
+                imdb_score, 
+                relase_date, 
+                play_time, 
+                photo_link, 
+                imdb_link, 
+                active
+            },
+                {where: {id}}
+        );
 
-        await ContentActors.destroy({where: {content_id: id}});
-        await ContentDirectors.destroy({where: {content_id: id}});
-        await ContentGenres.destroy({where: {content_id: id}});
+        const content = await Contents.findOne({where: {id}})
 
-        actors = actors.map(actor_id => {return {actor_id, content_id}});
-        directors = directors.map(director_id => {return {director_id, content_id}});
-        genres = genres.map(genre_id => {return {genre_id, content_id}});
+        if(content){
+            await ContentActors.destroy({where: {content_id: id}});
+            await ContentDirectors.destroy({where: {content_id: id}});
+            await ContentGenres.destroy({where: {content_id: id}});
+            console.log(actors, directors, genres);
 
-        await ContentActors.bulkCreate(actors);
-        await ContentDirectors.bulkCreate(directors);
-        await ContentGenres.bulkCreate(genres);
+            actors = actors.map(actor_id => {return {actor_id, content_id: id}});
+            directors = directors.map(director_id => {return {director_id, content_id: id}});
+            genres = genres.map(genre_id => {return {genre_id, content_id: id}});
 
-        const content = await Contents.findOne({
-            where: {id: id},
-            include: [
-                {
-                    model:Genres,
-                    attributes: ["id", "name"],
-                    through: { attributes: [] }
-                }, 
-                {
-                    model: Actors,
-                    attributes: [
-                        "id", "firstname", "lastname", "dob", 
-                        "biography", "profile_photo"
-                    ],
-                    through: { attributes: [] }
-                }, 
-                {
-                    model: Directors,
-                    attributes: [
-                        "id", "firstname", "lastname", "dob", 
-                        "biography", "profile_photo"
-                    ],
-                    through: { attributes: [] }
-                }
-            ]
-        })
-
-        return res.json({content});
+            await ContentActors.bulkCreate(actors);
+            await ContentDirectors.bulkCreate(directors);
+            await ContentGenres.bulkCreate(genres);
+            return res.json(content);
+        } else {
+            return res.status(204).json({message: `The content with id = ${id} does not exist`});
+        }
 
     }catch(error){
         next(error)
