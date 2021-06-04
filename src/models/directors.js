@@ -12,33 +12,10 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Directors.init({
-    firstname: {
-      type: DataTypes.STRING,
-      validate: {
-        isAlpha: true,
-        notEmpty: true,
-      }
-    },
-    lastname: {
-      type: DataTypes.STRING,
-      validate: {
-        isAlpha: true,
-        notEmpty: true,
-      }
-    },
-    dob: {
-      type: DataTypes.DATEONLY,
-      validate: {
-        isDate: true,
-        notEmpty: true,
-      }
-    },
-    biography: {
-      type: DataTypes.TEXT,
-      validate: {
-        notEmpty: true,
-      }
-    },
+    firstname: DataTypes.STRING,
+    lastname: DataTypes.STRING,
+    dob: DataTypes.DATEONLY,
+    biography: DataTypes.TEXT,
     profile_photo: DataTypes.STRING,
     active: DataTypes.BOOLEAN
   }, {

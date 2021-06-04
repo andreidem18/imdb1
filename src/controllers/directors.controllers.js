@@ -17,11 +17,7 @@ const get = async(req,res,next) => {
                 },
             ]
         });
-        if(director){
-            return res.json(director);
-        } else {
-            return res.status(404).json({message: `The director with id = ${id} does not exist`});
-        }
+        return res.json(director);
     }catch(error){
         next(error);
     }
@@ -29,8 +25,8 @@ const get = async(req,res,next) => {
 
 const getAll = async(req,res,next) => {
 
-    const limit = parseInt(req.query.limit) || 20;
-    const offset = parseInt(req.query.offset) || 0;
+    const limit = parseInt(req.query.limit);
+    const offset = parseInt(req.query.offset);
 
     try{
         let directors = await  Directors.findAll({
@@ -76,13 +72,10 @@ const deleteDirector = async(req,res,next) => {
     try{
         let director = await Directors.findOne({where: {id: id}});
 
-        if(director){
-            await ContentDirectors.destroy({where: {director_id: id}});
-            await Directors.destroy({where: {id: id}});
-            return res.json(director);
-        } else {
-            return res.status(204).json({message: `The director with id = ${id} does not exist`});
-        }
+        await ContentDirectors.destroy({where: {director_id: id}});
+        await Directors.destroy({where: {id: id}});
+
+        return res.json(director);
     }catch(error){
         next(error)
     }
@@ -114,11 +107,7 @@ const update = async(req,res,next) => {
                 },
             ]
         });
-        if(director){
-            return res.json(director);
-        } else {
-            return res.status(204).json({message: `The director with id = ${id} does not exist`});
-        }
+        return res.json(director);
     }catch(error){
         next(error)
     }

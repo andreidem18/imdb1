@@ -10,20 +10,38 @@ module.exports = {
       },
       firstname: {
         type: Sequelize.STRING,
-        allowNull: false
+        validate: {
+          isAlpha: true,
+          notEmpty: true,
+          notNull: true
+        }
       },
       lastname: {
         type: Sequelize.STRING,
-        allowNull: false
+        validate: {
+          isAlpha: true,
+          notEmpty: true,
+          notNull: true
+        }
       },
       email: {
         type: Sequelize.STRING,
         unique: true,
-        allowNull: false
+        validate: {
+          isEmail: true,
+          notEmpty: true,
+          notNull: true
+        }
       },
       password: {
         type: Sequelize.STRING,
-        allowNull: false
+        validate: {
+          notEmpty: true,
+          notNull: true
+        }
+      },
+      reset_token: {
+        type: Sequelize.TEXT
       },
       active: {
         type: Sequelize.BOOLEAN,

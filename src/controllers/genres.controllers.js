@@ -5,7 +5,7 @@ const get = async(req,res,next) => {
     const id = parseInt(req.params.id);
     try{
         let genre = await Genres.findOne({
-            where: {id}, 
+            where: {id: id}, 
             include: [
                 {
                     model:Contents,
@@ -17,11 +17,7 @@ const get = async(req,res,next) => {
                 },
             ]
         });
-        if(genre){
-            return res.json(genre);
-        } else {
-            return res.status(404).json({message: `The genre with id = ${id} does not exist`});
-        }
+        return res.json(genre);
     }catch(error){
         next(error);
     }
@@ -29,11 +25,11 @@ const get = async(req,res,next) => {
 
 const getAll = async(req,res,next) => {
 
-    const limit = parseInt(req.query.limit) || 20;
-    const offset = parseInt(req.query.offset) || 0;
+    const limit = parseInt(req.query.limit);
+    const offset = parseInt(req.query.offset);
 
     try{
-        const {count, rows} = await Genres.findAndCountAll({
+        let genres = await Genres.findAll({
             include: [
                 {
                     model:Contents,
@@ -48,17 +44,17 @@ const getAll = async(req,res,next) => {
             offset: offset,
             limit: limit
         });
-        return res.json(Paginate(offset, limit, count, rows));
+        let count = await Genres.findAll({raw: true});
+        return res.json(Paginate(offset, limit, count.length, genres));
     }catch(error){
-        next(error);
+        next(error)
     }
 }
 
 const create = async(req,res,next) => {
-    let {name} = req.body;
-    name = name.charAt(0).toUpperCase() + name.slice(1);
+    const {name, active} = req.body;
     try{
-        const genre = await Genres.create({name});
+        const genre = await Genres.create({name, active});
         return res.status(201).json({genre});
     }catch(error){
         next(error);
@@ -69,7 +65,7 @@ const deleteGenre = async(req,res,next) => {
     const id = parseInt(req.params.id);
     try{
         let genre = await Genres.findOne({
-            where: {id}, 
+            where: {id: id}, 
             include: [
                 {
                     model:Contents,
@@ -81,13 +77,9 @@ const deleteGenre = async(req,res,next) => {
                 },
             ]
         });
-        if(genre){
-            await ContentGenres.destroy({where: {genre_id: id}});
-            await Genres.destroy({where: {id}});
-            return res.json(genre);
-        } else {
-            return res.status(204).json({message: `The genre with id ${id} does not exist`});
-        }
+        await ContentGenres.destroy({where: {genre_id: id}});
+        await Genres.destroy({where: {id: id}});
+        return res.json(genre);
     }catch(error){
         next(error)
     }
@@ -95,13 +87,12 @@ const deleteGenre = async(req,res,next) => {
 
 const update = async(req,res,next) => {
     const id = parseInt(req.params.id);
-    let {name} = req.body;
-    name = name.charAt(0).toUpperCase() + name.slice(1);
+    const {name, active} = req.body;
     try{
-        await Genres.update({name},
-                            {where: {id}});
+        await Genres.update({name, active},
+                            {where: {id: id}});
         let genre = await Genres.findOne({
-            where: {id}, 
+            where: {id: id}, 
             include: [
                 {
                     model:Contents,
@@ -113,11 +104,7 @@ const update = async(req,res,next) => {
                 },
             ]
         });
-        if(genre){
-            return res.json(genre);
-        } else {
-            return res.status(204).json({message: `The genre with id ${id} does not exist`});
-        }
+        return res.json(genre);
     }catch(error){
         next(error)
     }

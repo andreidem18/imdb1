@@ -10,38 +10,55 @@ module.exports = {
       },
       title: {
         type: Sequelize.STRING,
-        allowNull: false
+        validate: {
+          notEmpty: true,
+          notNull: true
+        }
       },
       description: {
         type: Sequelize.STRING,
-        allowNull: false
+        validate: {
+          notEmpty: true,
+          notNull: true
+        }
       },
       total_seasons: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        validate: {
+          isNumeric: true
+        }
       },
       imdb_score: {
         type: Sequelize.DECIMAL,
-        allowNull: false
+        validate: {
+          isNumeric: true
+        }
       },
       relase_date: {
         type: Sequelize.DATEONLY,
-        allowNull: false
+        validate: {
+          isDate: true,
+          notEmpty: true,
+          notNull: true
+        }
       },
       play_time: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        validate: {
+          isNumeric: true
+        }
       },
       photo_link: {
         type: Sequelize.STRING
       },
       imdb_link: {
         type: Sequelize.STRING,
-        allowNull: false
+        validate: {
+          isUrl: true
+        }
       },
       active: {
-        type: Sequelize.BOOLEAN,
-        defaultValue: true
+        type: Sequelize.BOOLEAN
       },
       created_at: {
         allowNull: false,

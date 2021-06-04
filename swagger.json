@@ -22,9 +22,6 @@
                 "responses": {
                     "201":{
                         "description": "User added correctly"
-                    },
-                    "409":{
-                        "description": "The user already exists"
                     }
                 },
                 "requestBody":{
@@ -106,7 +103,7 @@
         },
         "/actors/?offset={offset}&limit={limit}":{
             "get":{
-                "description": "To get all actors. Offset = 0 and limit = 20 by default",
+                "description": "To get all actors",
                 "parameters":[
                     {"in": "path", "required": true, "name": "offset", "schema": {"type": "integer"}},
                     {"in": "path", "required": true, "name": "limit", "schema": {"type": "integer"}}
@@ -203,7 +200,7 @@
         },
         "/directors/?offset={offset}&limit={limit}":{
             "get":{
-                "description": "To get all directors. Offset = 0 and limit = 20 by default",
+                "description": "To get all directors",
                 "parameters":[
                     {"in": "path", "required": true, "name": "offset", "schema": {"type": "integer"}},
                     {"in": "path", "required": true, "name": "limit", "schema": {"type": "integer"}}
@@ -300,7 +297,7 @@
         },
         "/genres/?offset={offset}&limit={limit}":{
             "get":{
-                "description": "To get all genres. Offset = 0 and limit = 20 by default",
+                "description": "To get all genres",
                 "parameters":[
                     {"in": "path", "required": true, "name": "offset", "schema": {"type": "integer"}},
                     {"in": "path", "required": true, "name": "limit", "schema": {"type": "integer"}}
@@ -397,7 +394,7 @@
         },
         "/contents/?offset={offset}&limit={limit}":{
             "get":{
-                "description": "To get all Contents. Offset = 0 and limit = 20 by default",
+                "description": "To get all Contents",
                 "parameters":[
                     {"in": "path", "required": true, "name": "offset", "schema": {"type": "integer"}},
                     {"in": "path", "required": true, "name": "limit", "schema": {"type": "integer"}}
@@ -521,11 +518,6 @@
                         "type": "string",
                         "example": "Thomas Cruise Mapother IV is an American actor and produces. He has received various accolades for his work. He is one of the highest-apid actors in the world."
                     },
-                    "profile_photo":{
-                        "type": "string",
-                        "description": "URL to the actor photo",
-                        "example": "https://images.mubicdn.net/images/cast_member/2184/cache-2992-1547409411/image-w856.jpg?size=800x"
-                    },
                     "active": {
                         "type": "boolean"
                     }
@@ -550,11 +542,6 @@
                             "type": "string",
                             "example": "Anthony Russo is a producer and director, known for Avengers: Endgame (2019), Captain America and the winter soldier(2014) and Avengers: Infinity War (2018). "
                         },
-                        "profile_photo":{
-                            "type": "string",
-                            "description": "URL to the director photo",
-                            "example": "https://static.wikia.nocookie.net/marvelcinematicuniverse/images/4/47/Anthony_Russo.png/revision/latest?cb=20190626172010&path-prefix=es"
-                        },
                         "active": {
                             "type": "boolean"
                         }
@@ -565,6 +552,9 @@
                     "name":{
                         "type": "string",
                         "example": "Comedy"
+                    },
+                    "active": {
+                        "type": "boolean"
                     }
                 }
             },
@@ -572,7 +562,7 @@
                 "properties":{
                     "title":{
                         "type": "string",
-                        "example": "Rambo: first blood"
+                        "example": "Rambo"
                     },
                     "description":{
                         "type": "string",
@@ -604,6 +594,10 @@
                     "imdb_link": {
                         "type": "string",
                         "example": "https://www.imdb.com/title/tt0083944/"
+                    },
+                    "active": {
+                        "type": "boolean",
+                        "example": true
                     },
                     "actors": {
                         "type": "array",
