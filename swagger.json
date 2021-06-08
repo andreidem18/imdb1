@@ -7,7 +7,7 @@
     },
     "servers": [
         {
-            "url": "https://imdb3.herokuapp.com/api/v1",
+            "url": "https://imdb4.herokuapp.com/api/v1",
             "description": "Production"
         },
         {
@@ -410,7 +410,7 @@
                 "security": [{
                     "jwt_token": []
                 }],
-                "tags": ["Contents"]
+                "tags": ["Contents (movies and series)"]
             }
         },
         "/contents":{
